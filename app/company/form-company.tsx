@@ -16,7 +16,7 @@ import {
 } from '../../components/ui/form-control';
 import { useCompanyStore } from '@/store/companyStore';
 
-export default function NewCompanyModal() {
+export default function FormCompany() {
   const router = useRouter();
 
   const { companyId, companyName } = useLocalSearchParams<{

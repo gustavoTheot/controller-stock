@@ -9,7 +9,18 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "lint": "expo lint",
-    "format": "prettier --write . && eslint --fix ."
+    "format": "prettier --write . && eslint --fix .",
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "jest": {
+    "preset": "jest-expo",
+    "transformIgnorePatterns": [
+      "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@sentry/react-native|native-base|react-native-svg|@gluestack-ui/.*)"
+    ],
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/$1"
+    }
   },
   "dependencies": {
     "@expo/html-elements": "^0.10.1",
@@ -52,12 +63,17 @@
     "zustand": "^5.0.12"
   },
   "devDependencies": {
+    "@testing-library/jest-native": "^5.4.3",
+    "@testing-library/react-native": "^13.3.3",
+    "@types/jest": "^30.0.0",
     "@types/react": "~19.1.0",
     "babel-plugin-module-resolver": "^5.0.3",
     "eslint": "^9.25.0",
     "eslint-config-expo": "~10.0.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
+    "jest": "^29.7.0",
+    "jest-expo": "^54.0.17",
     "prettier": "^3.8.1",
     "prettier-plugin-tailwindcss": "^0.5.14",
     "tailwindcss": "^3.4.19",

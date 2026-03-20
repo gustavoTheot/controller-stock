@@ -57,3 +57,16 @@ Este projeto não depende de uma API externa para funcionar localmente. Ele util
 
 ---
 
+
+## 🧪 Testes Automatizados
+
+O projeto utiliza o **Jest** configurado com `jest-expo` para validar as principais regras de negócios e a integridade do estado global gerenciado pelo **Zustand**. 
+
+Os testes garantem que as ações fundamentais da aplicação (como modificações, adições e listagens base do _storeStore_) não sofram regressões.
+
+Para executar a suíte de testes unitários, basta rodar o comando na raiz do projeto:
+
+```bash
+npm run test
+# ou pnpm run test
+```

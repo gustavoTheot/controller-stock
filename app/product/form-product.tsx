@@ -17,6 +17,7 @@ import {
 } from '../../components/ui/form-control';
 import { useProductStore } from '@/store/productStore';
 import { Product } from '@/types/productDto';
+import { formatCurrency, parseCurrencyToNumber } from '@/util/formarMoney';
 
 // Categorias comuns do mercado
 const DEFAULT_CATEGORIES = [
@@ -27,25 +28,6 @@ const DEFAULT_CATEGORIES = [
   'Vestuário',
   'Alimentação',
 ];
-
-// Utilitário para formatar moeda -> R$ 1.999,99
-function formatCurrency(value: string) {
-  let numericValue = value.replace(/\D/g, ''); // Remove tudo que não é dígito
-  if (!numericValue) return '';
-
-  const amount = parseFloat(numericValue) / 100;
-  return amount.toLocaleString('pt-BR', {
-    style: 'currency',
-    currency: 'BRL',
-  });
-}
-
-// Utilitário para desformatar moeda na hora de salvar (R$ 1.999,99 -> 1999.99)
-function parseCurrencyToNumber(value: string) {
-  let numericValue = value.replace(/\D/g, '');
-  if (!numericValue) return 0;
-  return parseFloat(numericValue) / 100;
-}
 
 export default function FormProduct() {
   const router = useRouter();

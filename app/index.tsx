@@ -32,7 +32,7 @@ export default function Home() {
 
   const handleEditPress = (company: Company) => {
     router.push({
-      pathname: './form-company',
+      pathname: '/company/form-company',
       params: {
         companyId: company.id,
         companyName: company.name,
@@ -118,7 +118,7 @@ export default function Home() {
           size="lg"
           placement="bottom right"
           className="mb-8 mr-6 rounded-2xl bg-blue-600 shadow-2xl shadow-blue-600/30 transition-all active:scale-95 active:bg-blue-800"
-          onPress={() => router.push('./form-company')}
+          onPress={() => router.push('/company/form-company')}
         >
           <FabLabel className="px-2 py-1 text-base font-extrabold tracking-wide text-white">
             + Nova Empresa
