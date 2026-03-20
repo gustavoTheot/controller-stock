@@ -27,14 +27,12 @@ export default function Stores() {
 
   const { stores, isLoading, getStoresByCompany, removeStore } = useStoreStore();
 
-  // Estado para armazenar a palavra da busca
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Busca na API passando o searchQuery via debounce (otimiza requisições)
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       getStoresByCompany(companyId, searchQuery);
-    }, 500); // aguarda 500ms depois de parar de digitar para requisitar
+    }, 500);
 
     return () => clearTimeout(delayDebounceFn);
   }, [companyId, searchQuery]);
@@ -59,6 +57,7 @@ export default function Stores() {
       params: {
         storeId: store.id,
         storeName: store.name,
+        storeAddress: store.address,
       },
     });
   };
@@ -66,7 +65,6 @@ export default function Stores() {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }} edges={['top']}>
       <Box className="flex-1 bg-slate-50">
-        {/* Header Premium de Navegação */}
         <Box className="z-10 mb-2 rounded-b-3xl border-b border-slate-100 bg-white px-6 py-5 shadow-sm">
           <HStack className="mb-5 items-center">
             <TouchableOpacity
@@ -121,7 +119,6 @@ export default function Stores() {
           </Center>
         ) : (
           <FlatList
-            // Agora usa stores diretamente da store Zustand
             data={stores}
             keyExtractor={(item) => item.id}
             showsVerticalScrollIndicator={false}

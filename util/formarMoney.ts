@@ -13,4 +13,3 @@ export function formatCurrency(value: string) {
     currency: 'BRL',
   });
 }
-

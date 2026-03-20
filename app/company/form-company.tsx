@@ -1,6 +1,4 @@
-import { useState, useEffect } from 'react';
-import { useRouter, useLocalSearchParams } from 'expo-router';
-
+// app/company/form-company.tsx
 import { Box } from '../../components/ui/box';
 import { VStack } from '../../components/ui/vstack';
 import { Heading } from '../../components/ui/heading';
@@ -14,54 +12,21 @@ import {
   FormControlError,
   FormControlErrorText,
 } from '../../components/ui/form-control';
-import { useCompanyStore } from '@/store/companyStore';
+
+import { useCompanyForm } from '@/hooks/useCompanyForm';
 
 export default function FormCompany() {
-  const router = useRouter();
-
-  const { companyId, companyName } = useLocalSearchParams<{
-    companyId: string;
-    companyName: string;
-  }>();
-  const isEditing = !!companyId;
-
-  const { addCompany, updateCompany } = useCompanyStore();
-
-  const [name, setName] = useState('');
-  const [isLoadingSaving, setIsLoadingSaving] = useState(false);
-  const [validationError, setValidationError] = useState('');
-
-  useEffect(() => {
-    if (isEditing && companyName) {
-      setName(companyName);
-    }
-  }, [isEditing, companyName]);
-
-  const handleSave = async () => {
-    if (!name.trim()) {
-      setValidationError('O nome da empresa é obrigatório.');
-      return;
-    }
-
-    try {
-      setIsLoadingSaving(true);
-      setValidationError('');
-
-      const params = { name: name.trim() };
-
-      if (isEditing) {
-        await updateCompany({ id: companyId, ...params });
-      } else {
-        await addCompany(params);
-      }
-
-      router.back();
-    } catch (err) {
-      setValidationError('Ocorreu um erro ao salvar a empresa. Tente novamente.');
-    } finally {
-      setIsLoadingSaving(false);
-    }
-  };
+  const {
+    isEditing,
+    companyId,
+    name,
+    setName,
+    isLoadingSaving,
+    validationError,
+    setValidationError,
+    handleSave,
+    handleCancel,
+  } = useCompanyForm();
 
   return (
     <Box className="flex-1 bg-slate-50 px-6 py-8">
@@ -130,7 +95,7 @@ export default function FormCompany() {
             size="xl"
             variant="outline"
             isDisabled={isLoadingSaving}
-            onPress={() => router.back()}
+            onPress={handleCancel}
             className="h-14 rounded-xl border-slate-200 active:bg-slate-100"
           >
             <ButtonText className="text-lg font-semibold text-slate-500">Cancelar</ButtonText>

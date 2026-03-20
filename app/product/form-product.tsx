@@ -1,6 +1,4 @@
-import { useState, useEffect } from 'react';
-import { useRouter, useLocalSearchParams } from 'expo-router';
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, Switch } from 'react-native';
 
 import { Box } from '../../components/ui/box';
 import { VStack } from '../../components/ui/vstack';
@@ -15,11 +13,8 @@ import {
   FormControlLabelText,
   FormControlErrorText,
 } from '../../components/ui/form-control';
-import { useProductStore } from '@/store/productStore';
-import { Product } from '@/types/productDto';
-import { formatCurrency, parseCurrencyToNumber } from '@/util/formarMoney';
+import { useProductForm } from '@/hooks/useProductForm';
 
-// Categorias comuns do mercado
 const DEFAULT_CATEGORIES = [
   'Eletrônicos',
   'Informática',
@@ -30,122 +25,28 @@ const DEFAULT_CATEGORIES = [
 ];
 
 export default function FormProduct() {
-  const router = useRouter();
-
   const {
-    productId,
-    storeId,
-    productName,
-    category: paramCategory,
-    price: paramPrice,
-  } = useLocalSearchParams<{
-    productId: string;
-    storeId: string;
-    productName?: string;
-    category?: string;
-    price?: string;
-  }>();
-
-  const isEditing = !!productId;
-  const { saveProduct } = useProductStore();
-
-  // Estados do Produto
-  const [name, setName] = useState('');
-  const [price, setPrice] = useState(''); // Guarda no formato string mascarada
-
-  // Controle Categoria
-  const [category, setCategory] = useState(DEFAULT_CATEGORIES[0]);
-  const [isCustomCategory, setIsCustomCategory] = useState(false);
-  const [customCategoryText, setCustomCategoryText] = useState('');
-
-  const [isLoadingSaving, setIsLoadingSaving] = useState(false);
-  const [errors, setErrors] = useState<{
-    name?: string;
-    price?: string;
-    category?: string;
-    general?: string;
-  }>({});
-
-  useEffect(() => {
-    if (isEditing) {
-      if (productName) setName(productName);
-
-      // Se veio valor do banco (ex: 199.9), precisa formatar para carregar bonito
-      if (paramPrice) {
-        // Multiplica por 100 e padroniza para string sem ponto para reciclar o formatCurrency
-        const rawValue = (Number(paramPrice) * 100).toFixed(0);
-        setPrice(formatCurrency(rawValue));
-      }
-
-      if (paramCategory) {
-        if (!DEFAULT_CATEGORIES.includes(paramCategory)) {
-          setIsCustomCategory(true);
-          setCustomCategoryText(paramCategory);
-          setCategory(paramCategory);
-        } else {
-          setCategory(paramCategory);
-        }
-      }
-    }
-  }, [isEditing, productName, paramCategory, paramPrice]);
-
-  // Handler que processa o texto em tempo real aplicando a máscara
-  const handlePriceChange = (text: string) => {
-    const formatted = formatCurrency(text);
-    setPrice(formatted);
-    if (errors.price) setErrors((prev) => ({ ...prev, price: undefined }));
-  };
-
-  const validate = () => {
-    let newErrors: any = {};
-    let isValid = true;
-
-    if (!name.trim()) {
-      newErrors.name = 'O nome do produto é obrigatório.';
-      isValid = false;
-    }
-
-    if (!price.trim() || parseCurrencyToNumber(price) <= 0) {
-      newErrors.price = 'Insira um valor maior que zero.';
-      isValid = false;
-    }
-
-    if (isCustomCategory && !customCategoryText.trim()) {
-      newErrors.category = 'Defina o nome da nova categoria.';
-      isValid = false;
-    }
-
-    setErrors(newErrors);
-    return isValid;
-  };
-
-  const handleSave = async () => {
-    if (!validate()) return;
-
-    const finalCategory = isCustomCategory ? customCategoryText.trim() : category;
-    const finalPrice = parseCurrencyToNumber(price);
-
-    try {
-      setIsLoadingSaving(true);
-      setErrors({});
-
-      const productPayload: Product = {
-        id: productId || '',
-        storeId: storeId,
-        name: name.trim(),
-        category: finalCategory,
-        price: finalPrice, // Envia para o Mock/Backend como tipo numérico
-        quantity: isEditing ? undefined : 0,
-      };
-
-      await saveProduct(productPayload);
-      router.back();
-    } catch (err) {
-      setErrors({ general: 'Ocorreu um erro ao salvar. Tente novamente.' });
-    } finally {
-      setIsLoadingSaving(false);
-    }
-  };
+    isEditing,
+    name,
+    setName,
+    price,
+    handlePriceChange,
+    hasStock,
+    setHasStock,
+    quantity,
+    setQuantity,
+    category,
+    setCategory,
+    isCustomCategory,
+    setIsCustomCategory,
+    customCategoryText,
+    setCustomCategoryText,
+    isLoadingSaving,
+    errors,
+    setErrors,
+    handleSave,
+    handleCancel,
+  } = useProductForm();
 
   return (
     <Box className="flex-1 bg-slate-50 px-6 py-6">
@@ -194,7 +95,6 @@ export default function FormProduct() {
               )}
             </FormControl>
 
-            {/* Campo CATEGORIA Inteligente */}
             <FormControl isInvalid={!!errors.category}>
               <View className="mb-2 flex-row items-center justify-between">
                 <FormControlLabel>
@@ -222,7 +122,6 @@ export default function FormProduct() {
               </View>
 
               {isCustomCategory ? (
-                // Input para categoria customizada
                 <Input
                   variant="outline"
                   size="xl"
@@ -240,7 +139,6 @@ export default function FormProduct() {
                   />
                 </Input>
               ) : (
-                // Lista Padrão de Categorias
                 <HStack className="flex-wrap gap-2">
                   {DEFAULT_CATEGORIES.map((cat) => {
                     const isSelected = category === cat;
@@ -258,7 +156,6 @@ export default function FormProduct() {
                       </Button>
                     );
                   })}
-                  {/* Botão Outra Categoria */}
                   <Button
                     size="sm"
                     variant="outline"
@@ -280,9 +177,60 @@ export default function FormProduct() {
               )}
             </FormControl>
 
-            {/* Campo PREÇO Mascarado */}
+            <VStack space="md" className="mt-2">
+              <HStack className="items-center justify-between rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+                <VStack>
+                  <Text className="text-base font-bold text-slate-700">Tem em estoque?</Text>
+                  <Text className="text-sm font-medium text-slate-500">
+                    Ative para definir a quantidade inicial
+                  </Text>
+                </VStack>
+                <Switch
+                  value={hasStock}
+                  onValueChange={setHasStock}
+                  trackColor={{ false: '#cbd5e1', true: '#2563eb' }}
+                  thumbColor="#ffffff"
+                />
+              </HStack>
+
+              {hasStock && (
+                <FormControl isInvalid={!!errors.quantity}>
+                  <View className="mb-1 mt-2">
+                    <FormControlLabel>
+                      <FormControlLabelText className="text-base font-bold text-slate-700">
+                        Quantidade Inicial <Text className="text-red-500">*</Text>
+                      </FormControlLabelText>
+                    </FormControlLabel>
+                  </View>
+
+                  <Input
+                    variant="outline"
+                    size="xl"
+                    className={`h-14 rounded-xl bg-white shadow-sm ${errors.quantity ? 'border-red-500 focus:border-red-500' : 'border-slate-300 focus:border-blue-600'}`}
+                  >
+                    <InputField
+                      placeholder="Ex: 50"
+                      value={quantity}
+                      keyboardType="numeric"
+                      onChangeText={(text) => {
+                        setQuantity(text.replace(/[^0-9]/g, ''));
+                        if (errors.quantity)
+                          setErrors((prev) => ({ ...prev, quantity: undefined }));
+                      }}
+                      className="font-bold text-slate-800"
+                    />
+                  </Input>
+                  {!!errors.quantity && (
+                    <FormControlErrorText className="mt-1 text-red-500">
+                      {errors.quantity}
+                    </FormControlErrorText>
+                  )}
+                </FormControl>
+              )}
+            </VStack>
+
             <FormControl isInvalid={!!errors.price}>
-              <View className="mb-1">
+              <View className="mb-1 mt-2">
                 <FormControlLabel>
                   <FormControlLabelText className="text-base font-bold text-slate-700">
                     Preço de Venda <Text className="text-red-500">*</Text>
@@ -298,7 +246,7 @@ export default function FormProduct() {
                 <InputField
                   placeholder="R$ 0,00"
                   value={price}
-                  keyboardType="numeric" // abre o teclado de números do celular
+                  keyboardType="numeric"
                   onChangeText={handlePriceChange}
                   className="font-bold text-slate-800"
                 />
@@ -338,7 +286,7 @@ export default function FormProduct() {
             size="xl"
             variant="outline"
             isDisabled={isLoadingSaving}
-            onPress={() => router.back()}
+            onPress={handleCancel}
             className="h-14 rounded-xl border-slate-200 active:bg-slate-100"
           >
             <ButtonText className="text-lg font-semibold text-slate-500">Cancelar</ButtonText>

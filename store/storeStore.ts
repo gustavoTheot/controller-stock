@@ -11,6 +11,9 @@ interface StoreState {
   addStore: (data: CreateStoreParams) => Promise<void>;
   updateStore: (data: UpdateStoreParams) => Promise<void>;
   removeStore: (id: string) => Promise<void>;
+
+  incrementProductCount: (storeId: string) => void;
+  decrementProductCount: (storeId: string) => void;
 }
 
 const storeService = new StoreService();
@@ -68,5 +71,25 @@ export const useStoreStore = create<StoreState>((set) => ({
       set({ error: 'Erro ao remover a loja.' });
       throw err;
     }
+  },
+
+  incrementProductCount: (storeId: string) => {
+    set((state) => ({
+      stores: state.stores.map((store) =>
+        store.id === storeId
+          ? { ...store, quantityOfProducts: (store.quantityOfProducts || 0) + 1 }
+          : store,
+      ),
+    }));
+  },
+
+  decrementProductCount: (storeId: string) => {
+    set((state) => ({
+      stores: state.stores.map((store) =>
+        store.id === storeId
+          ? { ...store, quantityOfProducts: Math.max(0, (store.quantityOfProducts || 0) - 1) }
+          : store,
+      ),
+    }));
   },
 }));

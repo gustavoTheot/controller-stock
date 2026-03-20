@@ -1,7 +1,4 @@
-// app/index.tsx
-import { useEffect } from 'react';
-import { FlatList, Alert } from 'react-native';
-import { useRouter } from 'expo-router';
+import { FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Box } from '../components/ui/box';
@@ -12,52 +9,17 @@ import { Spinner } from '../components/ui/spinner';
 import { Heading } from '@/components/ui/heading';
 
 import { Card } from '../components/domain/Card';
-import { Company } from '../types/companyDto';
-import { useCompanyStore } from '@/store/companyStore';
+import { useHome } from '@/hooks/useHome';
 
 export default function Home() {
-  const router = useRouter();
-  const { companies, isLoading, removeCompany, getCompanies } = useCompanyStore();
-
-  useEffect(() => {
-    getCompanies();
-  }, []);
-
-  const handleStorePress = (storeId: string, companyName: string) => {
-    router.push({
-      pathname: '/store/[id]',
-      params: { id: storeId, companyName: companyName },
-    });
-  };
-
-  const handleEditPress = (company: Company) => {
-    router.push({
-      pathname: '/company/form-company',
-      params: {
-        companyId: company.id,
-        companyName: company.name,
-      },
-    });
-  };
-
-  const handleDeletePress = (companyId: string) => {
-    Alert.alert(
-      'Confirmar Remoção',
-      'Tem certeza que deseja apagar esta empresa? Isso removerá também todas as suas lojas e produtos associados.',
-      [
-        { text: 'Cancelar', style: 'cancel' },
-        {
-          text: 'Remover',
-          style: 'destructive',
-          onPress: () => {
-            removeCompany(companyId).catch(() => {
-              Alert.alert('Erro', 'Não foi possível remover a empresa.');
-            });
-          },
-        },
-      ],
-    );
-  };
+  const {
+    companies,
+    isLoading,
+    handleStorePress,
+    handleEditPress,
+    handleDeletePress,
+    handleNavigateToNewCompany,
+  } = useHome();
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#f8fafc' }} edges={['top']}>
@@ -105,20 +67,18 @@ export default function Home() {
                   Nenhuma empresa adicionada
                 </Text>
                 <Text className="mt-2 text-center text-sm leading-relaxed text-slate-500">
-                  Toque no botão flutuante abaixo para registrar a sua primeira rede matriz no
-                  sistema.
+                  Toque no botão flutuante abaixo para registrar a sua primeira rede matriz no sistema.
                 </Text>
               </Center>
             }
           />
         )}
 
-        {/* Fab Melhorado */}
         <Fab
           size="lg"
           placement="bottom right"
           className="mb-8 mr-6 rounded-2xl bg-blue-600 shadow-2xl shadow-blue-600/30 transition-all active:scale-95 active:bg-blue-800"
-          onPress={() => router.push('/company/form-company')}
+          onPress={handleNavigateToNewCompany}
         >
           <FabLabel className="px-2 py-1 text-base font-extrabold tracking-wide text-white">
             + Nova Empresa

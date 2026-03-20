@@ -73,12 +73,10 @@ export function Card({ item, onPress, onEdit, onDelete }: CardProps) {
                 >
                   Status
                 </Text>
-                {/* <HStack className="items-center mt-1" space="xs">
-                  <Box className="w-2 h-2 rounded-full bg-green-500" />
-                  <Text className="text-slate-800 font-bold text-sm">
-                    Conta Ativa
-                  </Text>
-                </HStack> */}
+                <HStack className="mt-1 items-center" space="xs">
+                  <Box className="h-2 w-2 rounded-full bg-green-500" />
+                  <Text className="text-sm font-bold text-slate-800">Conta Ativa</Text>
+                </HStack>
               </VStack>
 
               {/* <VStack className="items-end">

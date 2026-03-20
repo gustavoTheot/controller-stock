@@ -13,7 +13,12 @@ export class ProductService implements ProductServiceInterface {
   }
 
   async create(data: ProductParams) {
-    const response = await axios.post(this.baseUrl, data);
+    const payload = { ...data };
+    if (!payload.id) {
+      delete payload.id;
+    }
+
+    const response = await axios.post(this.baseUrl, payload);
     return response.data.product;
   }
 
@@ -23,7 +28,7 @@ export class ProductService implements ProductServiceInterface {
   }
 
   async delete(id: string) {
-    const response = await axios.delete(`${this.baseUrl}/${id}`);
-    return response.data.product;
+    if (!id) throw new Error('O ID do produto é obrigatório para a deleção.');
+    await axios.delete(`${this.baseUrl}/${id}`);
   }
 }

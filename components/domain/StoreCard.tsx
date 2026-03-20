@@ -30,7 +30,6 @@ export function StoreCard({ store, onPress, onEdit, onDelete }: StoreCardProps) 
               <Text className="text-xl font-extrabold text-indigo-600">{initial}</Text>
             </Center>
 
-            {/* Nome e Detalhes Principais */}
             <VStack className="mt-0.5 flex-1" space="xs">
               <HStack className="items-start justify-between">
                 <Box className="flex-1 pr-2">
@@ -42,10 +41,9 @@ export function StoreCard({ store, onPress, onEdit, onDelete }: StoreCardProps) 
                     {store.name}
                   </Heading>
                 </Box>
-                {/* Badge Visual (Opcional, definimos pelo tipo ou apenas Loja para estética) */}
-                <Box className={`rounded-md bg-indigo-100 px-2 py-0.5`}>
+                <Box className={`rounded-md bg-emerald-100 px-2 py-0.5`}>
                   <Text
-                    className={`text-[10px] font-bold uppercase tracking-wider text-indigo-700`}
+                    className={`text-[10px] font-bold uppercase tracking-wider text-emerald-700`}
                   >
                     Ativa
                   </Text>
@@ -63,22 +61,17 @@ export function StoreCard({ store, onPress, onEdit, onDelete }: StoreCardProps) 
             </VStack>
           </HStack>
 
-          {/* Destaque de Estatísticas / Endereço */}
           <Box className="mt-1 rounded-xl border border-slate-100 bg-slate-50 p-3">
-            <HStack className="items-center justify-between">
-              <VStack>
-                <Text
-                  size="xs"
-                  className="w-full flex-wrap font-medium uppercase tracking-wider text-slate-400"
-                >
+            <HStack className="items-start justify-between" space="md">
+              <VStack className="flex-1 pr-4">
+                <Text size="xs" className="font-medium uppercase tracking-wider text-slate-400">
                   Endereço
                 </Text>
-                <Text className="mt-0.5 text-sm font-bold text-slate-800" numberOfLines={1}>
+                <Text className="mt-0.5 text-sm font-bold text-slate-800">
                   {store.address || 'Não cadastrado'}
                 </Text>
               </VStack>
 
-              {/* Opcional: Se no futuro a modelagem tiver estatísticas, o código abaixo serviria para mostrar */}
               <VStack className="items-end">
                 <Text size="xs" className="font-medium uppercase tracking-wider text-slate-400">
                   Prod. Registrados

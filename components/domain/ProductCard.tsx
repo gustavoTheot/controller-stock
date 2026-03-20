@@ -8,6 +8,7 @@ import { Center } from '../ui/center';
 import { Button, ButtonText } from '../ui/button';
 import { TouchableOpacity } from 'react-native';
 import { Product } from '@/types/productDto';
+import { formatCurrency } from '@/util/formarMoney';
 
 interface ProductCardProps {
   product: Product;
@@ -17,12 +18,6 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, onPress, onEdit, onDelete }: ProductCardProps) {
-  // Formatação de preço (Moeda BRL)
-  const formattedPrice = new Intl.NumberFormat('pt-BR', {
-    style: 'currency',
-    currency: 'BRL',
-  }).format(product.price ?? 0);
-
   // Status de Estoque
   const quantity = product.quantity ?? 0;
   const isOutOfStock = quantity === 0;
@@ -42,8 +37,8 @@ export function ProductCard({ product, onPress, onEdit, onDelete }: ProductCardP
     stockText = 'Baixo Estoque';
   }
 
-  // Categoria visual
   const categoryInitial = product.category ? product.category.charAt(0).toUpperCase() : 'P';
+  const formattedPrice = formatCurrency((product.price ?? 0).toFixed(2));
 
   return (
     <TouchableOpacity activeOpacity={0.8}>
@@ -67,7 +62,6 @@ export function ProductCard({ product, onPress, onEdit, onDelete }: ProductCardP
                     {product.name}
                   </Heading>
                 </Box>
-                {/* Badge de status do estoque */}
                 <Box className={`rounded-md px-2 py-0.5 ${stockBadgeColor}`}>
                   <Text
                     className={`text-[10px] font-bold uppercase tracking-wider ${stockTextColor}`}
@@ -88,7 +82,6 @@ export function ProductCard({ product, onPress, onEdit, onDelete }: ProductCardP
             </VStack>
           </HStack>
 
-          {/* Destaque Financeiro / Saldo */}
           <Box className="mt-1 rounded-xl border border-slate-100 bg-slate-50 p-3">
             <HStack className="items-center justify-between">
               <VStack>
@@ -111,7 +104,6 @@ export function ProductCard({ product, onPress, onEdit, onDelete }: ProductCardP
             </HStack>
           </Box>
 
-          {/* Área de Ações */}
           <HStack space="sm" className="mt-1 justify-end border-t border-slate-100 pt-3">
             <Button
               size="xs"

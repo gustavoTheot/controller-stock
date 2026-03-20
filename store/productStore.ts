@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { Product, ProductParams } from '../types/productDto';
 import { ProductService } from '../services/productService';
+import { useStoreStore } from './storeStore';
 
 const productService = new ProductService();
 
@@ -13,7 +14,7 @@ interface ProductState {
   addProduct: (data: ProductParams) => Promise<void>;
   updateProduct: (data: ProductParams) => Promise<void>;
   saveProduct: (data: Product) => Promise<void>;
-  deleteProduct: (id: string) => Promise<void>;
+  deleteProduct: (id: string, storeId: string) => Promise<void>;
 }
 
 export const useProductStore = create<ProductState>((set, get) => ({
@@ -42,6 +43,10 @@ export const useProductStore = create<ProductState>((set, get) => ({
       set({ error: null });
       const response = await productService.create(data);
       set((state) => ({ products: [...state.products, response] }));
+
+      if (data.storeId) {
+        useStoreStore.getState().incrementProductCount(data.storeId);
+      }
     } catch (err) {
       set({ error: 'Erro ao criar o produto.' });
       throw err;
@@ -64,7 +69,6 @@ export const useProductStore = create<ProductState>((set, get) => ({
   },
 
   saveProduct: async (data: Product) => {
-    // Usamos 'get()' para acessar funções dentro da própria store
     if (data.id) {
       await get().updateProduct(data);
     } else {
@@ -72,13 +76,23 @@ export const useProductStore = create<ProductState>((set, get) => ({
     }
   },
 
-  deleteProduct: async (id: string) => {
+  deleteProduct: async (id: string, storeId: string) => {
+    if (!id) {
+      console.warn('Tentativa de remover um produto sem ID.');
+      return;
+    }
+
     try {
       set({ error: null });
       await productService.delete(id);
+
       set((state) => ({
         products: state.products.filter((product) => product.id !== id),
       }));
+
+      if (storeId) {
+        useStoreStore.getState().decrementProductCount(storeId);
+      }
     } catch (err) {
       set({ error: 'Erro ao deletar o produto.' });
       throw err;

@@ -11,12 +11,14 @@ export function seedDatabase(server: Server<AppRegistry>) {
     id: 'store-1',
     name: 'Filial Centro',
     companyId: company.id,
+    address: 'Rua Central, 456 - CEP 12345-678',
   });
 
   const store2 = server.create('store', {
     id: 'store-2',
     name: 'Filial Shopping',
     companyId: company.id,
+    address: 'Av. Shopping, 123 - CEP 12345-678',
   });
 
   server.create('product', {

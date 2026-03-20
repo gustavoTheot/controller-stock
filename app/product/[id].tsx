@@ -37,7 +37,7 @@ export default function Products() {
   const handleDeletePress = (productId: string) => {
     Alert.alert('Atenção', 'Deseja remover este produto?', [
       { text: 'Cancelar', style: 'cancel' },
-      { text: 'Remover', style: 'destructive', onPress: () => deleteProduct(productId) },
+      { text: 'Remover', style: 'destructive', onPress: () => deleteProduct(productId, storeId) },
     ]);
   };
 
@@ -50,6 +50,7 @@ export default function Products() {
         productName: item.name,
         category: item.category,
         price: item.price?.toString(),
+        quantity: item.quantity?.toString(),
       },
     });
   };
@@ -124,7 +125,6 @@ export default function Products() {
           </Center>
         ) : (
           <FlatList
-            // Agora usa o products da store sem um filter intermediário
             data={products}
             keyExtractor={(item) => item.id}
             showsVerticalScrollIndicator={false}
