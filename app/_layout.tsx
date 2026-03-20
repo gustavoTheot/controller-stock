@@ -2,6 +2,9 @@ import '../global.css';
 import { Stack } from 'expo-router';
 import { GluestackUIProvider } from '../components/ui/gluestack-ui-provider';
 import { makeServer } from '../mocks/server';
+import Toast from 'react-native-toast-message';
+
+import { toastConfig } from '../components/ui/ToastConfig';
 
 if (process.env.NODE_ENV === 'development') {
   makeServer({ environment: 'development' });
@@ -10,11 +13,6 @@ if (process.env.NODE_ENV === 'development') {
 export default function RootLayout() {
   return (
     <GluestackUIProvider mode="light">
-      {/* 
-        A propriedade screenOptions aplica padrão a todas as rotas filhas 
-        animation: 'slide_from_right' deixa natural no android/ios
-        contentStyle controla a cor entre trocas de tela
-      */}
       <Stack
         screenOptions={{
           headerShown: false,
@@ -66,6 +64,8 @@ export default function RootLayout() {
           }}
         />
       </Stack>
+
+      <Toast config={toastConfig} position="bottom" bottomOffset={110} visibilityTime={3500} />
     </GluestackUIProvider>
   );
 }

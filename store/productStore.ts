@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { Product, ProductParams } from '../types/productDto';
 import { ProductService } from '../services/productService';
 import { useStoreStore } from './storeStore';
+import Toast from 'react-native-toast-message';
 
 const productService = new ProductService();
 
@@ -47,8 +48,18 @@ export const useProductStore = create<ProductState>((set, get) => ({
       if (data.storeId) {
         useStoreStore.getState().incrementProductCount(data.storeId);
       }
+
+      Toast.show({
+        type: 'success',
+        text1: 'Produto Adicionado!',
+      });
     } catch (err) {
       set({ error: 'Erro ao criar o produto.' });
+
+      Toast.show({
+        type: 'error',
+        text1: 'Erro ao adicionar produto!',
+      });
       throw err;
     }
   },
@@ -62,8 +73,18 @@ export const useProductStore = create<ProductState>((set, get) => ({
           product.id === response.id ? response : product,
         ),
       }));
+
+      Toast.show({
+        type: 'success',
+        text1: 'Produto Atualizado!',
+      });
     } catch (err) {
       set({ error: 'Erro ao atualizar o produto.' });
+
+      Toast.show({
+        type: 'error',
+        text1: 'Erro ao atualizar produto!',
+      });
       throw err;
     }
   },
@@ -93,8 +114,18 @@ export const useProductStore = create<ProductState>((set, get) => ({
       if (storeId) {
         useStoreStore.getState().decrementProductCount(storeId);
       }
+
+      Toast.show({
+        type: 'success',
+        text1: 'Produto Removido!',
+      });
     } catch (err) {
       set({ error: 'Erro ao deletar o produto.' });
+
+      Toast.show({
+        type: 'error',
+        text1: 'Erro ao remover produto!',
+      });
       throw err;
     }
   },

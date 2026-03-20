@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { Company, CreateCompanyParams, UpdateCompanyParams } from '../types/companyDto';
 import { CompanyService } from '../services/companyServer'; // Ajuste o caminho se necessário
+import Toast from 'react-native-toast-message';
 
 const companyService = new CompanyService();
 
@@ -39,8 +40,18 @@ export const useCompanyStore = create<CompanyState>((set) => ({
       const newCompany = await companyService.create(data);
 
       set((state) => ({ companies: [...state.companies, newCompany] }));
+
+      Toast.show({
+        type: 'success',
+        text1: 'Empresa Adicionada!',
+      });
     } catch (err) {
       set({ error: 'Erro ao criar a empresa.' });
+
+      Toast.show({
+        type: 'error',
+        text1: 'Erro ao adicionar empresa!',
+      });
       throw err;
     }
   },
@@ -55,8 +66,18 @@ export const useCompanyStore = create<CompanyState>((set) => ({
           company.id === updatedCompany.id ? updatedCompany : company,
         ),
       }));
+
+      Toast.show({
+        type: 'success',
+        text1: 'Empresa Atualizada!',
+      });
     } catch (err) {
       set({ error: 'Erro ao atualizar a empresa.' });
+
+      Toast.show({
+        type: 'error',
+        text1: 'Erro ao atualizar empresa!',
+      });
       throw err;
     }
   },
@@ -69,8 +90,18 @@ export const useCompanyStore = create<CompanyState>((set) => ({
       set((state) => ({
         companies: state.companies.filter((company) => company.id !== id),
       }));
+
+      Toast.show({
+        type: 'success',
+        text1: 'Empresa Removida!',
+      });
     } catch (err) {
       set({ error: 'Erro ao remover a empresa.' });
+
+      Toast.show({
+        type: 'error',
+        text1: 'Erro ao remover empresa!',
+      });
       throw err;
     }
   },

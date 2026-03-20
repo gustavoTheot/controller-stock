@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { Store, CreateStoreParams, UpdateStoreParams } from '../types/storeDto';
 import { StoreService } from '@/services/storeService';
+import Toast from 'react-native-toast-message';
 
 interface StoreState {
   stores: Store[];
@@ -41,8 +42,18 @@ export const useStoreStore = create<StoreState>((set) => ({
       set({ error: null });
       const newStore = await storeService.create(data);
       set((state) => ({ stores: [...state.stores, newStore] }));
+
+      Toast.show({
+        type: 'success',
+        text1: 'Loja Adicionada!',
+      });
     } catch (err) {
       set({ error: 'Erro ao criar a loja.' });
+
+      Toast.show({
+        type: 'error',
+        text1: 'Erro ao adicionar loja!',
+      });
       throw err;
     }
   },
@@ -54,8 +65,18 @@ export const useStoreStore = create<StoreState>((set) => ({
       set((state) => ({
         stores: state.stores.map((store) => (store.id === updatedStore.id ? updatedStore : store)),
       }));
+
+      Toast.show({
+        type: 'success',
+        text1: 'Loja Atualizada!',
+      });
     } catch (err) {
       set({ error: 'Erro ao atualizar a loja.' });
+
+      Toast.show({
+        type: 'error',
+        text1: 'Erro ao atualizar loja!',
+      });
       throw err;
     }
   },
@@ -67,8 +88,18 @@ export const useStoreStore = create<StoreState>((set) => ({
       set((state) => ({
         stores: state.stores.filter((store) => store.id !== id),
       }));
+
+      Toast.show({
+        type: 'success',
+        text1: 'Loja Removida!',
+      });
     } catch (err) {
       set({ error: 'Erro ao remover a loja.' });
+
+      Toast.show({
+        type: 'error',
+        text1: 'Erro ao remover loja!',
+      });
       throw err;
     }
   },
