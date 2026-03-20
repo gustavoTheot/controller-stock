@@ -37,7 +37,7 @@ describe('Zustand: storeStore', () => {
     }));
 
     state = useStoreStore.getState();
-    
+
     // 4. Teste de Validação
     expect(state.stores.length).toBe(1);
     expect(state.stores[0].name).toBe('Loja B'); // Loja A foi removida

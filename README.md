@@ -2,7 +2,21 @@
 
 Aplicativo de gerenciamento de filiais e controle de estoque, desenvolvido em React Native com Expo, focado em uma interface moderna e alta performance.
 
-## 🛠 Versões Utilizadas
+## � Telas do Aplicativo
+
+As imagens abaixo mostram a evolução visual, e os dados dinâmicos do aplicativo:
+
+| Painel Principal | Lista de Lojas | Lista de Produtos |
+|:---:|:---:|:---:|
+| <img src="./assets/screenshots/painel.png" width="220"> | <img src="./assets/screenshots/lojas.png" width="220"> | <img src="./assets/screenshots/produtos.png" width="220"> |
+
+| Nova Empresa | Editar Loja | Editar Produto |
+|:---:|:---:|:---:|
+| <img src="./assets/screenshots/empresa-form.png" width="220"> | <img src="./assets/screenshots/loja-form.png" width="220"> | <img src="./assets/screenshots/produto-form.png" width="220"> |
+
+---
+
+## �🛠 Versões Utilizadas
 
 - **Node.js**: v18+ (Recomendado para o ambiente)
 - **Expo SDK**: ~54.0.33
