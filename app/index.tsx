@@ -32,7 +32,7 @@ export default function Home() {
             Olá, Gustavo
           </Heading>
           <Text className="mt-1.5 font-medium leading-relaxed text-slate-500">
-            Gerencie o seu ecossistema de SaaS. Selecione uma rede para visualizar suas filiais.
+            Gerencie o seu ecossistema de empresas.
           </Text>
         </Box>
 
