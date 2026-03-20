@@ -2,8 +2,24 @@ import { Server } from 'miragejs';
 import { AppRegistry, AppSchema } from '../models';
 
 export function setupStoreRoutes(server: Server<AppRegistry>) {
-  server.get('/stores', (schema: AppSchema) => {
-    return schema.all('store');
+  server.get('/stores', (schema: AppSchema, request) => {
+    const { companyId } = request.queryParams;
+
+    let storesCollection = companyId 
+      ? schema.where('store', { companyId })
+      : schema.all('store');
+
+    const storesWithCounts = storesCollection.models.map(store => {
+      const productsCount = schema.where('product', { storeId: store.id }).length;
+      
+      return {
+        ...store.attrs,
+        quantityOfProducts: productsCount
+      };
+    });
+
+    // 3. Devolvemos já em formato JSON embrulhado com a chave { stores: [...] }
+    return { stores: storesWithCounts };
   });
 
   server.post('/stores', (schema: AppSchema, request) => {

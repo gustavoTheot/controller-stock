@@ -5,9 +5,12 @@ import { CreateStoreParams, Store, UpdateStoreParams } from '../types/storeDto';
 export class StoreService implements StoreServiceInterface {
   private readonly baseUrl = '/api/stores' as const;
 
-  async getAll(): Promise<Store[]> {
-    const response = await axios(this.baseUrl);
-    return response.data.store;
+  async getAll(companyId: string): Promise<Store[]> {
+     const response = await axios.get(this.baseUrl, {
+      params: { companyId }
+    });
+    
+    return response.data.stores || [];
   }
 
   async create(data: CreateStoreParams): Promise<Store> {

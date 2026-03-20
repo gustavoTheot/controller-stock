@@ -3,20 +3,24 @@ import { AppRegistry } from './models';
 
 export function seedDatabase(server: Server<AppRegistry>) {
   const company = server.create('company', {
+    id: 'adc-123',
     name: 'Tech Varejo SA',
   });
 
   const store1 = server.create('store', {
+    id: 'store-1',
     name: 'Filial Centro',
     companyId: company.id,
   });
   
   const store2 = server.create('store', {
+    id: 'store-2',
     name: 'Filial Shopping',
     companyId: company.id,
   });
 
   server.create('product', {
+    id: 'prod-1',
     name: 'MacBook Pro',
     quantity: 15,
     price: 12000,
@@ -25,6 +29,7 @@ export function seedDatabase(server: Server<AppRegistry>) {
   });
 
   server.create('product', {
+    id: 'prod-2',
     name: 'Monitor Dell 27"',
     quantity: 30,
     price: 2500,
@@ -33,6 +38,7 @@ export function seedDatabase(server: Server<AppRegistry>) {
   });
 
   server.create('product', {
+    id: 'prod-3',
     name: 'Teclado Mecânico',
     quantity: 50,
     price: 450,

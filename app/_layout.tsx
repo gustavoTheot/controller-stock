@@ -1,31 +1,26 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import '../global.css'; 
 import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
+import { GluestackUIProvider } from '../components/ui/gluestack-ui-provider';
+import { makeServer } from '../mocks/server';
 
-import { useColorScheme } from '@/hooks/use-color-scheme';
-
-import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider';
-import '@/global.css';
-
-export const unstable_settings = {
-  anchor: '(tabs)',
-};
+if (process.env.NODE_ENV === 'development') {
+  makeServer({ environment: 'development' });
+}
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-
   return (
-    
-    <GluestackUIProvider mode="dark">
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <GluestackUIProvider mode="light">
       <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
+        <Stack.Screen name="index" options={{ headerShown: false }} />
+        
+        <Stack.Screen name="store/[id]" options={{ headerShown: false }} />
+        <Stack.Screen name="store/new-store" options={{ presentation: 'modal', title: 'Nova Loja' }} />
+        
+        
+        <Stack.Screen name="product/[id]" options={{ headerShown: false }} />
+        
+        <Stack.Screen name="new-company" options={{ presentation: 'modal', title: 'Nova Empresa' }} />
       </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
     </GluestackUIProvider>
-  
   );
 }
