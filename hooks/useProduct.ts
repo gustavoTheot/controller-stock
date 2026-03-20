@@ -1,4 +1,3 @@
-// hooks/useProducts.ts
 import { useEffect, useState } from 'react';
 import { Alert } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
@@ -9,7 +8,7 @@ export function useProducts() {
   const router = useRouter();
   const { id: storeId, storeName } = useLocalSearchParams<{ id: string; storeName: string }>();
 
-  const { products, isLoading, getProducts, deleteProduct } = useProductStore();
+  const { products, isLoading, getProducts, removeProduct } = useProductStore();
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
@@ -23,7 +22,7 @@ export function useProducts() {
   const handleDeletePress = (productId: string) => {
     Alert.alert('Atenção', 'Deseja remover este produto?', [
       { text: 'Cancelar', style: 'cancel' },
-      { text: 'Remover', style: 'destructive', onPress: () => deleteProduct(productId, storeId) },
+      { text: 'Remover', style: 'destructive', onPress: () => removeProduct(productId, storeId) },
     ]);
   };
 

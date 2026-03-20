@@ -24,7 +24,6 @@ export default function Home() {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#f8fafc' }} edges={['top']}>
       <Box className="flex-1 bg-slate-50">
-        {/* Header Premium */}
         <Box className="z-10 border-b border-slate-200 bg-white px-6 pb-6 pt-4 shadow-sm">
           <Text className="mb-1.5 text-xs font-bold uppercase tracking-widest text-blue-600">
             Painel de Controle
@@ -52,7 +51,7 @@ export default function Home() {
             contentContainerStyle={{ paddingBottom: 120, paddingTop: 20, paddingHorizontal: 20 }}
             renderItem={({ item }) => (
               <Card
-                item={item}
+                company={item}
                 onPress={handleStorePress}
                 onEdit={handleEditPress}
                 onDelete={handleDeletePress}

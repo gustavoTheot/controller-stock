@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { Company, CreateCompanyParams, UpdateCompanyParams } from '../types/companyDto';
-import { CompanyService } from '../services/companyServer'; // Ajuste o caminho se necessário
+import { CompanyService } from '../services/companyServer';
 import Toast from 'react-native-toast-message';
 
 const companyService = new CompanyService();

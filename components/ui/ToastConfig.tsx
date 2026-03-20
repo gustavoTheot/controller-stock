@@ -1,4 +1,3 @@
-// components/ui/ToastConfig.tsx
 import React from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { ToastConfig, BaseToastProps } from 'react-native-toast-message';

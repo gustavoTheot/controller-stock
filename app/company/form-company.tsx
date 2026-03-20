@@ -1,4 +1,3 @@
-// app/company/form-company.tsx
 import { Box } from '../../components/ui/box';
 import { VStack } from '../../components/ui/vstack';
 import { Heading } from '../../components/ui/heading';
@@ -42,7 +41,6 @@ export default function FormCompany() {
           </Text>
         </VStack>
 
-        {/* Formulário */}
         <FormControl isInvalid={!!validationError}>
           <FormControlLabel mb="$2">
             <FormControlLabelText className="text-base font-bold text-slate-700">

@@ -1,4 +1,3 @@
-// app/store/[id].tsx
 import { FlatList, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ChevronLeft, Search } from 'lucide-react-native';
@@ -44,7 +43,7 @@ export default function Stores() {
             <Text className="ml-3 text-sm font-bold text-blue-600">Voltar ao Painel</Text>
           </HStack>
 
-          <Text className="mb-1.5 ml-1 text-[10px] font-bold uppercase tracking-widest text-indigo-600">Rede Matriz</Text>
+          <Text className="mb-1.5 ml-1 text-[10px] font-bold uppercase tracking-widest text-indigo-600">Empresa Matriz</Text>
           <Heading
             size="3xl"
             className="font-black tracking-tight text-slate-900"

@@ -83,7 +83,6 @@ export function StoreCard({ store, onPress, onEdit, onDelete }: StoreCardProps) 
             </HStack>
           </Box>
 
-          {/* Área de Ações com Design Flex-1 (mesmo do Product) */}
           <HStack space="sm" className="mt-1 justify-end border-t border-slate-100 pt-3">
             <Button
               size="xs"

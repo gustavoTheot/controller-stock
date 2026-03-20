@@ -1,4 +1,3 @@
-// components/domain/ProductCard.tsx
 import { Box } from '../ui/box';
 import { VStack } from '../ui/vstack';
 import { HStack } from '../ui/hstack';
@@ -18,7 +17,6 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, onPress, onEdit, onDelete }: ProductCardProps) {
-  // Status de Estoque
   const quantity = product.quantity ?? 0;
   const isOutOfStock = quantity === 0;
   const isLowStock = quantity > 0 && quantity <= 10;
@@ -45,12 +43,10 @@ export function ProductCard({ product, onPress, onEdit, onDelete }: ProductCardP
       <Box className="mb-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
         <VStack space="md">
           <HStack space="md" className="items-start">
-            {/* Ícone ou Avatar da Categoria */}
             <Center className="h-14 w-14 rounded-xl border border-slate-200 bg-slate-100/80">
               <Text className="text-xl font-extrabold text-slate-600">{categoryInitial}</Text>
             </Center>
 
-            {/* Nome e Detalhes */}
             <VStack className="mt-0.5 flex-1" space="xs">
               <HStack className="items-start justify-between">
                 <Box className="flex-1 pr-2">

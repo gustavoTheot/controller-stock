@@ -15,7 +15,7 @@ interface ProductState {
   addProduct: (data: ProductParams) => Promise<void>;
   updateProduct: (data: ProductParams) => Promise<void>;
   saveProduct: (data: Product) => Promise<void>;
-  deleteProduct: (id: string, storeId: string) => Promise<void>;
+  removeProduct: (id: string, storeId: string) => Promise<void>;
 }
 
 export const useProductStore = create<ProductState>((set, get) => ({
@@ -97,7 +97,7 @@ export const useProductStore = create<ProductState>((set, get) => ({
     }
   },
 
-  deleteProduct: async (id: string, storeId: string) => {
+  removeProduct: async (id: string, storeId: string) => {
     if (!id) {
       console.warn('Tentativa de remover um produto sem ID.');
       return;

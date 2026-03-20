@@ -1,4 +1,3 @@
-// hooks/useHome.ts
 import { useEffect } from 'react';
 import { Alert } from 'react-native';
 import { useRouter } from 'expo-router';
@@ -21,7 +20,6 @@ export function useHome() {
     });
   };
 
-  // Navegação para edição
   const handleEditPress = (company: Company) => {
     router.push({
       pathname: '/company/form-company',

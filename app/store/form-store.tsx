@@ -1,4 +1,3 @@
-// app/store/form-store.tsx
 import { View } from 'react-native';
 import { Box } from '../../components/ui/box';
 import { VStack } from '../../components/ui/vstack';
