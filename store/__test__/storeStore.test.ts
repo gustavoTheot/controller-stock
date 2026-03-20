@@ -1,7 +1,7 @@
 import { useStoreStore } from '../storeStore';
 
 describe('Zustand: storeStore', () => {
-  // Limpa o estado depois de cada teste para evitar leak entre eles
+  // Limpa o estado depois de cada teste para evitar
   beforeEach(() => {
     useStoreStore.setState({
       stores: [],
@@ -21,8 +21,8 @@ describe('Zustand: storeStore', () => {
     // 1. Injetamos um dado simulado diretamente na Store para preparar o teste
     useStoreStore.setState({
       stores: [
-        { id: '1', name: 'Loja A', companyId: '10' },
-        { id: '2', name: 'Loja B', companyId: '10' },
+        { id: '1', name: 'Loja A', companyId: '10', quantityOfProducts: 10, address: 'Endereço A' },
+        { id: '2', name: 'Loja B', companyId: '10', quantityOfProducts: 5, address: 'Endereço B' },
       ],
     });
 
