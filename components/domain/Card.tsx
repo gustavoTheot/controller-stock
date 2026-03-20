@@ -13,7 +13,7 @@ interface CardProps {
   item: any; // Você pode tipar como Company no futuro
   onPress: (id: string, name: string) => void;
   onEdit: (item: any) => void;
-  onDelete: (id: string) => void; 
+  onDelete: (id: string) => void;
 }
 
 export function Card({ item, onPress, onEdit, onDelete }: CardProps) {
@@ -24,26 +24,28 @@ export function Card({ item, onPress, onEdit, onDelete }: CardProps) {
 
   return (
     <TouchableOpacity activeOpacity={0.8} onPress={() => onPress(item.id, item.name)}>
-      <Box className="mb-4 p-4 bg-white rounded-2xl border border-slate-200 shadow-sm">
+      <Box className="mb-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
         <VStack space="md">
           <HStack space="md" className="items-start">
             {/* Ícone ou Avatar da Rede com cantos mais arredondados estilo App */}
-            <Center className="w-14 h-14 bg-blue-50 rounded-xl border border-blue-100">
-              <Text className="text-blue-600 font-extrabold text-xl">
-                {initial}
-              </Text>
+            <Center className="h-14 w-14 rounded-xl border border-blue-100 bg-blue-50">
+              <Text className="text-xl font-extrabold text-blue-600">{initial}</Text>
             </Center>
 
             {/* Nome e Detalhes Principais */}
-            <VStack className="flex-1 mt-0.5" space="xs">
-              <HStack className="justify-between items-start">
+            <VStack className="mt-0.5 flex-1" space="xs">
+              <HStack className="items-start justify-between">
                 <Box className="flex-1 pr-2">
-                  <Heading size="md" className="text-slate-900 font-bold leading-tight" numberOfLines={1}>
+                  <Heading
+                    size="md"
+                    className="font-bold leading-tight text-slate-900"
+                    numberOfLines={1}
+                  >
                     {item.name}
                   </Heading>
                 </Box>
                 {/* Badge Visual da Empresa */}
-                <Box className={`px-2 py-0.5 rounded-md bg-blue-100`}>
+                <Box className={`rounded-md bg-blue-100 px-2 py-0.5`}>
                   <Text className={`text-[10px] font-bold uppercase tracking-wider text-blue-700`}>
                     Matriz
                   </Text>
@@ -51,17 +53,24 @@ export function Card({ item, onPress, onEdit, onDelete }: CardProps) {
               </HStack>
 
               <HStack className="items-center" space="xs">
-                <Text size="sm" className="text-slate-500 font-medium">ID:</Text>
-                <Text size="sm" className="text-slate-700 font-semibold">{item.id || 'N/A'}</Text>
+                <Text size="sm" className="font-medium text-slate-500">
+                  ID:
+                </Text>
+                <Text size="sm" className="font-semibold text-slate-700">
+                  {item.id || 'N/A'}
+                </Text>
               </HStack>
             </VStack>
           </HStack>
 
           {/* Destaque de Estatísticas / Resumo */}
-          <Box className="bg-slate-50 rounded-xl p-3 mt-1 border border-slate-100">
-            <HStack className="justify-between items-center">
+          <Box className="mt-1 rounded-xl border border-slate-100 bg-slate-50 p-3">
+            <HStack className="items-center justify-between">
               <VStack>
-                <Text size="xs" className="text-slate-400 font-medium uppercase tracking-wider flex-wrap w-full">
+                <Text
+                  size="xs"
+                  className="w-full flex-wrap font-medium uppercase tracking-wider text-slate-400"
+                >
                   Status
                 </Text>
                 {/* <HStack className="items-center mt-1" space="xs">
@@ -71,7 +80,7 @@ export function Card({ item, onPress, onEdit, onDelete }: CardProps) {
                   </Text>
                 </HStack> */}
               </VStack>
-              
+
               {/* <VStack className="items-end">
                 <Text size="xs" className="text-slate-400 font-medium uppercase tracking-wider">
                   Filiais Cadastradas
@@ -83,24 +92,24 @@ export function Card({ item, onPress, onEdit, onDelete }: CardProps) {
             </HStack>
           </Box>
 
-          <HStack space="sm" className="justify-end border-t border-slate-100 pt-3 mt-1">
-            <Button 
-              size="xs" 
-              variant="outline" 
-              className="rounded-lg h-8 border-slate-300 active:bg-slate-100 flex-1 sm:flex-none justify-center"
-              onPress={() => onEdit(item)} 
+          <HStack space="sm" className="mt-1 justify-end border-t border-slate-100 pt-3">
+            <Button
+              size="xs"
+              variant="outline"
+              className="h-8 flex-1 justify-center rounded-lg border-slate-300 active:bg-slate-100 sm:flex-none"
+              onPress={() => onEdit(item)}
             >
-              <ButtonText className="text-slate-600 font-semibold px-2">Editar</ButtonText>
+              <ButtonText className="px-2 font-semibold text-slate-600">Editar</ButtonText>
             </Button>
-            
-            <Button 
-              size="xs" 
-              variant="outline" 
-              action="negative" 
-              className="rounded-lg h-8 border-red-300 active:bg-red-50 flex-1 sm:flex-none justify-center"
+
+            <Button
+              size="xs"
+              variant="outline"
+              action="negative"
+              className="h-8 flex-1 justify-center rounded-lg border-red-300 active:bg-red-50 sm:flex-none"
               onPress={() => onDelete(item.id)}
             >
-              <ButtonText className="text-red-600 font-semibold px-2">Remover</ButtonText>
+              <ButtonText className="px-2 font-semibold text-red-600">Remover</ButtonText>
             </Button>
           </HStack>
         </VStack>

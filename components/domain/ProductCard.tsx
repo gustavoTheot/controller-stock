@@ -47,56 +47,64 @@ export function ProductCard({ product, onPress, onEdit, onDelete }: ProductCardP
 
   return (
     <TouchableOpacity activeOpacity={0.8}>
-      <Box className="mb-4 p-4 bg-white rounded-2xl border border-slate-200 shadow-sm">
+      <Box className="mb-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
         <VStack space="md">
           <HStack space="md" className="items-start">
             {/* Ícone ou Avatar da Categoria */}
-            <Center className="w-14 h-14 bg-slate-100/80 rounded-xl border border-slate-200">
-              <Text className="text-slate-600 font-extrabold text-xl">
-                {categoryInitial}
-              </Text>
+            <Center className="h-14 w-14 rounded-xl border border-slate-200 bg-slate-100/80">
+              <Text className="text-xl font-extrabold text-slate-600">{categoryInitial}</Text>
             </Center>
 
             {/* Nome e Detalhes */}
-            <VStack className="flex-1 mt-0.5" space="xs">
-              <HStack className="justify-between items-start">
+            <VStack className="mt-0.5 flex-1" space="xs">
+              <HStack className="items-start justify-between">
                 <Box className="flex-1 pr-2">
-                  <Heading size="md" className="text-slate-900 font-bold leading-tight" numberOfLines={1}>
+                  <Heading
+                    size="md"
+                    className="font-bold leading-tight text-slate-900"
+                    numberOfLines={1}
+                  >
                     {product.name}
                   </Heading>
                 </Box>
                 {/* Badge de status do estoque */}
-                <Box className={`px-2 py-0.5 rounded-md ${stockBadgeColor}`}>
-                  <Text className={`text-[10px] font-bold uppercase tracking-wider ${stockTextColor}`}>
+                <Box className={`rounded-md px-2 py-0.5 ${stockBadgeColor}`}>
+                  <Text
+                    className={`text-[10px] font-bold uppercase tracking-wider ${stockTextColor}`}
+                  >
                     {stockText}
                   </Text>
                 </Box>
               </HStack>
 
               <HStack className="items-center" space="xs">
-                <Text size="sm" className="text-slate-500 font-medium">SKU:</Text>
-                <Text size="sm" className="text-slate-700 font-semibold">{product.sku || 'N/A'}</Text>
+                <Text size="sm" className="font-medium text-slate-500">
+                  SKU:
+                </Text>
+                <Text size="sm" className="font-semibold text-slate-700">
+                  {product.sku || 'N/A'}
+                </Text>
               </HStack>
             </VStack>
           </HStack>
 
           {/* Destaque Financeiro / Saldo */}
-          <Box className="bg-slate-50 rounded-xl p-3 mt-1 border border-slate-100">
-            <HStack className="justify-between items-center">
+          <Box className="mt-1 rounded-xl border border-slate-100 bg-slate-50 p-3">
+            <HStack className="items-center justify-between">
               <VStack>
-                <Text size="xs" className="text-slate-400 font-medium uppercase tracking-wider">
+                <Text size="xs" className="font-medium uppercase tracking-wider text-slate-400">
                   Estoque Atual
                 </Text>
-                <Text className="text-slate-800 font-bold text-base mt-0.5">
+                <Text className="mt-0.5 text-base font-bold text-slate-800">
                   {quantity} {quantity === 1 ? 'unidade' : 'unidades'}
                 </Text>
               </VStack>
-              
+
               <VStack className="items-end">
-                <Text size="xs" className="text-slate-400 font-medium uppercase tracking-wider">
+                <Text size="xs" className="font-medium uppercase tracking-wider text-slate-400">
                   Valor Unitário
                 </Text>
-                <Text className="text-blue-600 font-extrabold text-base mt-0.5">
+                <Text className="mt-0.5 text-base font-extrabold text-blue-600">
                   {formattedPrice}
                 </Text>
               </VStack>
@@ -104,24 +112,24 @@ export function ProductCard({ product, onPress, onEdit, onDelete }: ProductCardP
           </Box>
 
           {/* Área de Ações */}
-          <HStack space="sm" className="justify-end border-t border-slate-100 pt-3 mt-1">
-            <Button 
-              size="xs" 
-              variant="outline" 
-              className="rounded-lg h-8 border-slate-300 active:bg-slate-100 flex-1 sm:flex-none justify-center"
-              onPress={() => onEdit(product)} 
+          <HStack space="sm" className="mt-1 justify-end border-t border-slate-100 pt-3">
+            <Button
+              size="xs"
+              variant="outline"
+              className="h-8 flex-1 justify-center rounded-lg border-slate-300 active:bg-slate-100 sm:flex-none"
+              onPress={() => onEdit(product)}
             >
-              <ButtonText className="text-slate-600 font-semibold px-2">Editar</ButtonText>
+              <ButtonText className="px-2 font-semibold text-slate-600">Editar</ButtonText>
             </Button>
-            
-            <Button 
-              size="xs" 
-              variant="outline" 
-              action="negative" 
-              className="rounded-lg h-8 border-red-300 active:bg-red-50 flex-1 sm:flex-none justify-center"
+
+            <Button
+              size="xs"
+              variant="outline"
+              action="negative"
+              className="h-8 flex-1 justify-center rounded-lg border-red-300 active:bg-red-50 sm:flex-none"
               onPress={() => onDelete(product.id)}
             >
-              <ButtonText className="text-red-600 font-semibold px-2">Remover</ButtonText>
+              <ButtonText className="px-2 font-semibold text-red-600">Remover</ButtonText>
             </Button>
           </HStack>
         </VStack>

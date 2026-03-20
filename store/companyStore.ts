@@ -8,7 +8,7 @@ interface CompanyState {
   companies: Company[];
   isLoading: boolean;
   error: string | null;
-  
+
   getCompanies: () => Promise<void>;
   addCompany: (data: CreateCompanyParams) => Promise<void>;
   updateCompany: (data: UpdateCompanyParams) => Promise<void>;
@@ -37,7 +37,7 @@ export const useCompanyStore = create<CompanyState>((set) => ({
     try {
       set({ error: null });
       const newCompany = await companyService.create(data);
-      
+
       set((state) => ({ companies: [...state.companies, newCompany] }));
     } catch (err) {
       set({ error: 'Erro ao criar a empresa.' });
@@ -49,10 +49,10 @@ export const useCompanyStore = create<CompanyState>((set) => ({
     try {
       set({ error: null });
       const updatedCompany = await companyService.update(data);
-      
+
       set((state) => ({
         companies: state.companies.map((company) =>
-          company.id === updatedCompany.id ? updatedCompany : company
+          company.id === updatedCompany.id ? updatedCompany : company,
         ),
       }));
     } catch (err) {
@@ -65,7 +65,7 @@ export const useCompanyStore = create<CompanyState>((set) => ({
     try {
       set({ error: null });
       await companyService.delete(id);
-      
+
       set((state) => ({
         companies: state.companies.filter((company) => company.id !== id),
       }));

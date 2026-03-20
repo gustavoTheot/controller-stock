@@ -54,7 +54,7 @@ export const useProductStore = create<ProductState>((set, get) => ({
       const response = await productService.update(data);
       set((state) => ({
         products: state.products.map((product) =>
-          product.id === response.id ? response : product
+          product.id === response.id ? response : product,
         ),
       }));
     } catch (err) {

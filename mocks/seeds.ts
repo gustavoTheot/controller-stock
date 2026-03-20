@@ -12,7 +12,7 @@ export function seedDatabase(server: Server<AppRegistry>) {
     name: 'Filial Centro',
     companyId: company.id,
   });
-  
+
   const store2 = server.create('store', {
     id: 'store-2',
     name: 'Filial Shopping',

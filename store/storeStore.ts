@@ -6,7 +6,7 @@ interface StoreState {
   stores: Store[];
   isLoading: boolean;
   error: string | null;
-  
+
   getStoresByCompany: (companyId: string, search?: string) => Promise<void>;
   addStore: (data: CreateStoreParams) => Promise<void>;
   updateStore: (data: UpdateStoreParams) => Promise<void>;
@@ -49,9 +49,7 @@ export const useStoreStore = create<StoreState>((set) => ({
       set({ error: null });
       const updatedStore = await storeService.update(data);
       set((state) => ({
-        stores: state.stores.map((store) =>
-          store.id === updatedStore.id ? updatedStore : store
-        ),
+        stores: state.stores.map((store) => (store.id === updatedStore.id ? updatedStore : store)),
       }));
     } catch (err) {
       set({ error: 'Erro ao atualizar a loja.' });

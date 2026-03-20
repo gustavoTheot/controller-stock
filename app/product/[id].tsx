@@ -19,9 +19,9 @@ import { ProductCard } from '@/components/domain/ProductCard';
 import { Product } from '@/types/productDto';
 
 export default function Products() {
-  const router = useRouter();  
-  const { id: storeId, storeName } = useLocalSearchParams<{ id: string, storeName: string }>();
-  
+  const router = useRouter();
+  const { id: storeId, storeName } = useLocalSearchParams<{ id: string; storeName: string }>();
+
   const { products, isLoading, getProducts, deleteProduct } = useProductStore();
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -35,29 +35,29 @@ export default function Products() {
   }, [storeId, searchQuery]);
 
   const handleDeletePress = (productId: string) => {
-    Alert.alert("Atenção", "Deseja remover este produto?", [
-      { text: "Cancelar", style: "cancel" },
-      { text: "Remover", style: "destructive", onPress: () => deleteProduct(productId) }
+    Alert.alert('Atenção', 'Deseja remover este produto?', [
+      { text: 'Cancelar', style: 'cancel' },
+      { text: 'Remover', style: 'destructive', onPress: () => deleteProduct(productId) },
     ]);
   };
 
   const handleEditPress = (item: Product) => {
     router.push({
       pathname: './form-product',
-      params: { 
-        productId: item.id, 
+      params: {
+        productId: item.id,
         storeId: storeId,
         productName: item.name,
         category: item.category,
-        price: item.price?.toString()
-      }
+        price: item.price?.toString(),
+      },
     });
   };
 
   const handleImportExcel = () => {
     Alert.alert(
-      "Importar Produtos", 
-      "A importação via planilha Excel (.xlsx, .csv) estará disponível em breve!"
+      'Importar Produtos',
+      'A importação via planilha Excel (.xlsx, .csv) estará disponível em breve!',
     );
   };
 
@@ -65,52 +65,50 @@ export default function Products() {
     <SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }} edges={['top']}>
       <Box className="flex-1 bg-slate-50">
         <Stack.Screen options={{ headerShown: false }} />
-      
-        <Box className="px-6 pt-5 pb-6 bg-white border-b border-slate-200 z-10">
-          <HStack className="items-center justify-between mb-5">
+
+        <Box className="z-10 border-b border-slate-200 bg-white px-6 pb-6 pt-5">
+          <HStack className="mb-5 items-center justify-between">
             <HStack className="items-center">
-              <TouchableOpacity 
-                activeOpacity={0.7} 
+              <TouchableOpacity
+                activeOpacity={0.7}
                 onPress={() => router.back()}
-                className="w-10 h-10 rounded-xl bg-blue-50 items-center justify-center border border-blue-100/50"
+                className="h-10 w-10 items-center justify-center rounded-xl border border-blue-100/50 bg-blue-50"
               >
                 <ChevronLeft size={24} color="#2563eb" strokeWidth={3} />
               </TouchableOpacity>
-              <Text className="text-blue-600 font-bold ml-3 text-sm">
-                Voltar à Matriz
-              </Text>
+              <Text className="ml-3 text-sm font-bold text-blue-600">Voltar à Matriz</Text>
             </HStack>
 
-            <TouchableOpacity 
-              activeOpacity={0.7} 
+            <TouchableOpacity
+              activeOpacity={0.7}
               onPress={handleImportExcel}
-              className="px-3 py-2 bg-emerald-50 rounded-lg flex-row items-center border border-emerald-200"
+              className="flex-row items-center rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2"
             >
               <FileSpreadsheet size={16} color="#10b981" />
-              <Text className="text-emerald-700 font-bold text-xs ml-2">Importar</Text>
+              <Text className="ml-2 text-xs font-bold text-emerald-700">Importar</Text>
             </TouchableOpacity>
           </HStack>
 
-          <Text className="text-blue-600 font-bold text-xs uppercase tracking-wider mb-1">
+          <Text className="mb-1 text-xs font-bold uppercase tracking-wider text-blue-600">
             Loja / Filial
           </Text>
-          <Heading size="2xl" className="text-slate-900 font-extrabold tracking-tight">
+          <Heading size="2xl" className="font-extrabold tracking-tight text-slate-900">
             {storeName || 'Carregando...'}
           </Heading>
-          
-          <Text className="text-slate-500 mt-1 mb-4 font-medium">
+
+          <Text className="mb-4 mt-1 font-medium text-slate-500">
             Gerenciar os estoques e produtos desta unidade.
           </Text>
 
-          <Input 
-            variant="outline" 
-            size="md" 
-            className="flex-row items-center h-12 rounded-xl bg-slate-50 border-slate-200 px-3"
+          <Input
+            variant="outline"
+            size="md"
+            className="h-12 flex-row items-center rounded-xl border-slate-200 bg-slate-50 px-3"
           >
             <InputSlot className="pr-2">
               <Search size={20} color="#94a3b8" />
             </InputSlot>
-            <InputField 
+            <InputField
               placeholder="Buscar produto cadastrado..."
               value={searchQuery}
               onChangeText={setSearchQuery}
@@ -122,7 +120,7 @@ export default function Products() {
         {isLoading ? (
           <Center className="flex-1">
             <Spinner size="large" color="$blue600" />
-            <Text className="text-slate-500 mt-4 font-medium animate-pulse">Carregando...</Text>
+            <Text className="mt-4 animate-pulse font-medium text-slate-500">Carregando...</Text>
           </Center>
         ) : (
           <FlatList
@@ -132,23 +130,27 @@ export default function Products() {
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{ paddingBottom: 120, paddingTop: 16, paddingHorizontal: 20 }}
             renderItem={({ item }) => (
-              <ProductCard 
-                product={item} 
-                onPress={() => {/* pode abrir detalhe futuro */}}
+              <ProductCard
+                product={item}
+                onPress={() => {
+                  /* pode abrir detalhe futuro */
+                }}
                 onEdit={handleEditPress}
                 onDelete={handleDeletePress}
               />
             )}
             ListEmptyComponent={
-              <Center className="mt-12 p-8 border-2 border-dashed border-slate-200 rounded-3xl bg-slate-50/50 mx-4">
-                <Box className="w-16 h-16 bg-blue-100 rounded-full items-center justify-center mb-4">
-                  <Text className="text-blue-600 text-3xl">📦</Text>
+              <Center className="mx-4 mt-12 rounded-3xl border-2 border-dashed border-slate-200 bg-slate-50/50 p-8">
+                <Box className="mb-4 h-16 w-16 items-center justify-center rounded-full bg-blue-100">
+                  <Text className="text-3xl text-blue-600">📦</Text>
                 </Box>
-                <Text className="text-slate-400 text-lg font-semibold text-center">
-                  {searchQuery ? "Produto não encontrado." : "Estoque vazio nesta loja."}
+                <Text className="text-center text-lg font-semibold text-slate-400">
+                  {searchQuery ? 'Produto não encontrado.' : 'Estoque vazio nesta loja.'}
                 </Text>
-                <Text className="text-slate-400 text-sm text-center mt-2 leading-relaxed">
-                  {searchQuery ? "Remova o filtro para ver todos." : "Importe do excel ou adicione um primeiro produto pelo botão abaixo."}
+                <Text className="mt-2 text-center text-sm leading-relaxed text-slate-400">
+                  {searchQuery
+                    ? 'Remova o filtro para ver todos.'
+                    : 'Importe do excel ou adicione um primeiro produto pelo botão abaixo.'}
                 </Text>
               </Center>
             }
@@ -158,10 +160,10 @@ export default function Products() {
         <Fab
           size="lg"
           placement="bottom right"
-          className="bg-blue-600 rounded-2xl shadow-blue-600/30 shadow-2xl mb-8 mr-6 active:bg-blue-800 active:scale-95 transition-all"
+          className="mb-8 mr-6 rounded-2xl bg-blue-600 shadow-2xl shadow-blue-600/30 transition-all active:scale-95 active:bg-blue-800"
           onPress={() => router.push({ pathname: './form-product', params: { storeId } })}
         >
-          <FabLabel className="text-white font-extrabold text-base px-2 py-1 tracking-wide">
+          <FabLabel className="px-2 py-1 text-base font-extrabold tracking-wide text-white">
             + Novo Produto
           </FabLabel>
         </Fab>

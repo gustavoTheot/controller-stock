@@ -7,8 +7,8 @@ export function setupProductRoutes(server: Server<AppRegistry>) {
 
     return schema.where('product', (product: any) => {
       const isStoreMatch = storeId ? product.storeId === storeId : true;
-      const isSearchMatch = search 
-        ? product.name.toLowerCase().includes(search.toLowerCase()) 
+      const isSearchMatch = search
+        ? product.name.toLowerCase().includes(search.toLowerCase())
         : true;
 
       return isStoreMatch && isSearchMatch;
@@ -34,11 +34,11 @@ export function setupProductRoutes(server: Server<AppRegistry>) {
   server.get('/stores/:id/products', (schema: AppSchema, request) => {
     const storeId = request.params.id;
     const { search } = request.queryParams;
-    
+
     return schema.where('product', (product: any) => {
       const isStoreMatch = product.storeId === storeId;
-      const isSearchMatch = search 
-        ? product.name.toLowerCase().includes(search.toLowerCase()) 
+      const isSearchMatch = search
+        ? product.name.toLowerCase().includes(search.toLowerCase())
         : true;
 
       return isStoreMatch && isSearchMatch;

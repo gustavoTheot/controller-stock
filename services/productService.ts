@@ -7,7 +7,7 @@ export class ProductService implements ProductServiceInterface {
 
   async getAll(storeId: string, search?: string) {
     const response = await axios.get(`${this.baseUrl}`, {
-      params: { storeId, search }
+      params: { storeId, search },
     });
     return response.data.products || [];
   }

@@ -1,50 +1,59 @@
-# Welcome to your Expo app 👋
+# Controle de Estoque (Controller Stock)
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Aplicativo de gerenciamento de filiais e controle de estoque, desenvolvido em React Native com Expo, focado em uma interface moderna e alta performance.
 
-## Get started
+## 🛠 Versões Utilizadas
 
-1. Install dependencies
+- **Node.js**: v18+ (Recomendado para o ambiente)
+- **Expo SDK**: ~54.0.33
+- **React**: 19.1.0
+- **React Native**: 0.81.5
+- **Gerenciamento de Estado (Zustand)**: ^5.0.12
+- **Estilização (NativeWind / Gluestack-UI)**: ^4.2.3 / ^3.0.x
+- **Mock de Backend (MirageJS)**: ^0.1.48
 
+---
+
+## 🚀 Passos de Instalação e Execução
+
+Caso utilize `pnpm` (conforme o pnpm-lock do projeto), você pode substituir os comandos `npm` por `pnpm`.
+
+1. **Clone o repositório** e acesse a pasta do projeto:
+   ```bash
+   cd provertec/controler-stock
+   ```
+
+2. **Instale as dependências** do projeto:
    ```bash
    npm install
+   # ou pnpm install
    ```
 
-2. Start the app
-
+3. **Inicie o servidor do Expo**:
    ```bash
    npx expo start
+   # ou npm start
    ```
 
-In the output, you'll find options to open the app in a
+4. **Abra o aplicativo**:
+   - Para abrir no seu próprio celular, baixe o aplicativo **Expo Go** (Android/iOS) e escaneie o código QR exibido no terminal.
+   - Para rodar em um emulador, pressione no terminal:
+     - `a` para rodar no Emulador Android.
+     - `i` para rodar no Simulador iOS.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+---
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## 💾 Instruções para o Mock de Back-end (MirageJS)
 
-## Get a fresh project
+Este projeto não depende de uma API externa para funcionar localmente. Ele utiliza o **MirageJS** para interceptar as requisições HTTP e simular um banco de dados relacional (Lojas e Produtos) operando diretamente na memória do aplicativo.
 
-When you're ready, run:
+**🚨 Importante:** Você **não precisa** rodar nenhum comando extra para subir o backend. 
 
-```bash
-npm run reset-project
-```
+### Como funciona:
+1. Assim que o aplicativo é inciado (`npx expo start`), o provedor do MirageJS contido na pasta `/mocks/server.ts` é instanciado.
+2. Todas as chamadas para `/api/companies`, `/api/stores` e `/api/products` feitas com o `Axios` pelos `Services` são interceptadas.
+3. O mock processa a requisição validando `queryParams` (buscas, ids) e gerencia bancos de dados virtuais efêmeros.
+4. Para visualizar ou modificar os dados iniciais do projeto (seeds), ou alterar comportamentos de rotas, acesse o diretório `/mocks`.
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+---
 
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
