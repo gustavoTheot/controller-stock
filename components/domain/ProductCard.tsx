@@ -11,7 +11,7 @@ import { Product } from '@/types/productDto';
 
 interface ProductCardProps {
   product: Product;
-  onPress: (productId: string, productName: string) => void;
+  onPress?: (productId: string, productName: string) => void;
   onEdit: (product: Product) => void;
   onDelete: (productId: string) => void;
 }
@@ -46,7 +46,7 @@ export function ProductCard({ product, onPress, onEdit, onDelete }: ProductCardP
   const categoryInitial = product.category ? product.category.charAt(0).toUpperCase() : 'P';
 
   return (
-    <TouchableOpacity activeOpacity={0.8} onPress={() => onPress(product.id, product.name)}>
+    <TouchableOpacity activeOpacity={0.8}>
       <Box className="mb-4 p-4 bg-white rounded-2xl border border-slate-200 shadow-sm">
         <VStack space="md">
           <HStack space="md" className="items-start">

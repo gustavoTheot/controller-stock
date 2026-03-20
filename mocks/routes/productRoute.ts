@@ -2,7 +2,12 @@ import { Server } from 'miragejs';
 import { AppRegistry, AppSchema } from '../models';
 
 export function setupProductRoutes(server: Server<AppRegistry>) {
-  server.get('/products', (schema: AppSchema) => {
+  server.get('/products', (schema: AppSchema, request) => {
+    const { storeId } = request.queryParams;
+
+    if (storeId) {
+      return schema.where('product', { storeId });
+    }
     return schema.all('product');
   });
 

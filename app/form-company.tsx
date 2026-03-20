@@ -1,42 +1,42 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 
-import { Box } from '../../components/ui/box';
-import { VStack } from '../../components/ui/vstack';
-import { Heading } from '../../components/ui/heading';
-import { Text } from '../../components/ui/text';
-import { Input, InputField } from '../../components/ui/input';
-import { Button, ButtonText, ButtonSpinner } from '../../components/ui/button';
+import { Box } from '../components/ui/box';
+import { VStack } from '../components/ui/vstack';
+import { Heading } from '../components/ui/heading';
+import { Text } from '../components/ui/text';
+import { Input, InputField } from '../components/ui/input';
+import { Button, ButtonText, ButtonSpinner } from '../components/ui/button';
 import {
   FormControl,
   FormControlLabel,
   FormControlLabelText,
   FormControlError,
   FormControlErrorText,
-} from '../../components/ui/form-control';
-import { useStoreStore } from '@/store/storeStore';
+} from '../components/ui/form-control';
+import { useCompanyStore } from '@/store/companyStore';
 
-export default function FormStore() {
+export default function NewCompanyModal() {
   const router = useRouter();
   
-  const { storeId, storeName } = useLocalSearchParams<{ storeId: string, storeName: string }>();
-  const isEditing = !!storeId;
+  const { companyId, companyName } = useLocalSearchParams<{ companyId: string, companyName: string }>();
+  const isEditing = !!companyId;
 
-  const { addStore, updateStore } = useStoreStore();
+  const { addCompany, updateCompany } = useCompanyStore();
   
   const [name, setName] = useState('');
   const [isLoadingSaving, setIsLoadingSaving] = useState(false);
   const [validationError, setValidationError] = useState('');
 
   useEffect(() => {
-    if (isEditing && storeName) {
-      setName(storeName);
+    if (isEditing && companyName) {
+      setName(companyName);
     }
-  }, [isEditing, storeName]);
+  }, [isEditing, companyName]);
 
   const handleSave = async () => {
     if (!name.trim()) {
-      setValidationError('O nome da loja é obrigatório.');
+      setValidationError('O nome da empresa é obrigatório.');
       return;
     }
 
@@ -47,14 +47,14 @@ export default function FormStore() {
       const params = { name: name.trim() };
       
       if (isEditing) {
-        await updateStore({ id: storeId, ...params });
+        await updateCompany({ id: companyId, ...params });
       } else {
-        await addStore(params);
+        await addCompany(params);
       }      
       
       router.back();
     } catch (err) {
-      setValidationError('Ocorreu um erro ao salvar a loja. Tente novamente.');
+      setValidationError('Ocorreu um erro ao salvar a empresa. Tente novamente.');
     } finally {
       setIsLoadingSaving(false);
     }
@@ -66,10 +66,10 @@ export default function FormStore() {
         
         <VStack space="xs" className="mb-2">
           <Heading size="2xl" className="text-slate-900 font-extrabold tracking-tight">
-            {isEditing ? 'Editar Loja' : 'Nova Loja'}
+            {isEditing ? 'Editar Empresa' : 'Nova Empresa'}
           </Heading>
           <Text size="md" className="text-slate-500 font-medium mt-1">
-            {isEditing ? `Modifique os dados de ID: ${storeId}` : 'Preencha os dados para registrar uma nova rede.'}
+            {isEditing ? `Modifique os dados de ID: ${companyId}` : 'Preencha os dados para registrar uma nova rede.'}
           </Text>
         </VStack>
 
@@ -77,7 +77,7 @@ export default function FormStore() {
         <FormControl isInvalid={!!validationError}>
           <FormControlLabel mb="$2">
             <FormControlLabelText className="text-slate-700 font-bold text-base">
-              Nome da Loja
+              Nome da Empresa
             </FormControlLabelText>
           </FormControlLabel>
           

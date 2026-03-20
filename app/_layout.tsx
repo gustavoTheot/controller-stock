@@ -10,16 +10,59 @@ if (process.env.NODE_ENV === 'development') {
 export default function RootLayout() {
   return (
     <GluestackUIProvider mode="light">
-      <Stack>
-        <Stack.Screen name="index" options={{ headerShown: false }} />
+      {/* 
+        A propriedade screenOptions aplica padrão a todas as rotas filhas 
+        animation: 'slide_from_right' deixa natural no android/ios
+        contentStyle controla a cor entre trocas de tela
+      */}
+      <Stack screenOptions={{ 
+        headerShown: false,
+        animation: 'slide_from_right',
+        contentStyle: { backgroundColor: '#f8fafc' } 
+      }}>
+        <Stack.Screen name="index" />
         
-        <Stack.Screen name="store/[id]" options={{ headerShown: false }} />
-        <Stack.Screen name="store/new-store" options={{ presentation: 'modal', title: 'Nova Loja' }} />
+        <Stack.Screen name="store/[id]" />
+        <Stack.Screen name="product/[id]" />
         
-        
-        <Stack.Screen name="product/[id]" options={{ headerShown: false }} />
-        
-        <Stack.Screen name="new-company" options={{ presentation: 'modal', title: 'Nova Empresa' }} />
+        <Stack.Screen 
+          name="form-company" 
+          options={{ 
+            presentation: 'modal', 
+            title: 'Configuração de Empresa',
+            headerShown: true, // Mostra header só no modal
+            headerStyle: { backgroundColor: '#f8fafc' },
+            headerShadowVisible: false, // Remove linha no iOS
+            headerTintColor: '#0f172a', // Cor do titulo (slate-900)
+            headerTitleStyle: { fontWeight: 'bold' }
+          }} 
+        />
+
+        <Stack.Screen 
+          name="store/form-store" 
+          options={{ 
+            presentation: 'modal', 
+            title: 'Configuração de Loja',
+            headerShown: true,
+            headerStyle: { backgroundColor: '#f8fafc' },
+            headerShadowVisible: false,
+            headerTintColor: '#0f172a',
+            headerTitleStyle: { fontWeight: 'bold' }
+          }} 
+        />
+
+        <Stack.Screen 
+          name="product/form-product" 
+          options={{ 
+            presentation: 'modal', 
+            title: 'Configuração de Produto',
+            headerShown: true,
+            headerStyle: { backgroundColor: '#f8fafc' },
+            headerShadowVisible: false,
+            headerTintColor: '#0f172a',
+            headerTitleStyle: { fontWeight: 'bold' }
+          }} 
+        />
       </Stack>
     </GluestackUIProvider>
   );
