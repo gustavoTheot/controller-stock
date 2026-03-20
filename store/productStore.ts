@@ -9,7 +9,7 @@ interface ProductState {
   isLoading: boolean;
   error: string | null;
 
-  getProducts: (storeId: string) => Promise<void>;
+  getProducts: (storeId: string, search?: string) => Promise<void>;
   addProduct: (data: ProductParams) => Promise<void>;
   updateProduct: (data: ProductParams) => Promise<void>;
   saveProduct: (data: Product) => Promise<void>;
@@ -21,10 +21,10 @@ export const useProductStore = create<ProductState>((set, get) => ({
   isLoading: false,
   error: null,
 
-  getProducts: async (storeId: string) => {
+  getProducts: async (storeId: string, search?: string) => {
     set({ isLoading: true, error: null });
     try {
-      const data = await productService.getAll(storeId);
+      const data = await productService.getAll(storeId, search);
       set({ products: data });
     } catch (err) {
       set({

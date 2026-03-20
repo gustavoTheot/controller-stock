@@ -3,11 +3,20 @@ import { AppRegistry, AppSchema } from '../models';
 
 export function setupStoreRoutes(server: Server<AppRegistry>) {
   server.get('/stores', (schema: AppSchema, request) => {
-    const { companyId } = request.queryParams;
-
-    let storesCollection = companyId 
-      ? schema.where('store', { companyId })
-      : schema.all('store');
+    const { companyId, search } = request.queryParams;
+    
+    // Filtro usando callback para poder comparar as strings parcialmente
+    let storesCollection = schema.where('store', (store: any) => {
+      // 1. O id da empresa deve sempre bater (se fornecido)
+      const isCompanyMatch = companyId ? store.companyId === companyId : true;
+      
+      // 2. Se houver `search`, verifique se o nome contém a palavra buscada
+      const isSearchMatch = search 
+        ? store.name.toLowerCase().includes(search.toLowerCase()) 
+        : true;
+      
+      return isCompanyMatch && isSearchMatch;
+    });
 
     const storesWithCounts = storesCollection.models.map(store => {
       const productsCount = schema.where('product', { storeId: store.id }).length;
@@ -18,7 +27,6 @@ export function setupStoreRoutes(server: Server<AppRegistry>) {
       };
     });
 
-    // 3. Devolvemos já em formato JSON embrulhado com a chave { stores: [...] }
     return { stores: storesWithCounts };
   });
 

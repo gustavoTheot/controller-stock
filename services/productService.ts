@@ -1,12 +1,14 @@
 import axios from 'axios';
 import { ProductServiceInterface } from '../adapters/product';
-import { Product, ProductParams } from '../types/productDto';
+import { ProductParams } from '../types/productDto';
 
 export class ProductService implements ProductServiceInterface {
   private readonly baseUrl = '/api/products' as const;
 
-  async getAll(storeId: string) {
-    const response = await axios.get(`${this.baseUrl}?storeId=${storeId}`);
+  async getAll(storeId: string, search?: string) {
+    const response = await axios.get(`${this.baseUrl}`, {
+      params: { storeId, search }
+    });
     return response.data.products || [];
   }
 

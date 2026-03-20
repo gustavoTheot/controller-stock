@@ -7,7 +7,7 @@ interface StoreState {
   isLoading: boolean;
   error: string | null;
   
-  getStoresByCompany: (companyId: string) => Promise<void>;
+  getStoresByCompany: (companyId: string, search?: string) => Promise<void>;
   addStore: (data: CreateStoreParams) => Promise<void>;
   updateStore: (data: UpdateStoreParams) => Promise<void>;
   removeStore: (id: string) => Promise<void>;
@@ -20,10 +20,10 @@ export const useStoreStore = create<StoreState>((set) => ({
   isLoading: false,
   error: null,
 
-  getStoresByCompany: async (companyId: string) => {
+  getStoresByCompany: async (companyId: string, search?: string) => {
     set({ isLoading: true, error: null });
     try {
-      const data = await storeService.getAll(companyId);
+      const data = await storeService.getAll(companyId, search);
       console.log('', data);
       set({ stores: data });
     } catch (err) {

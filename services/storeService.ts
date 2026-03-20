@@ -5,9 +5,9 @@ import { CreateStoreParams, Store, UpdateStoreParams } from '../types/storeDto';
 export class StoreService implements StoreServiceInterface {
   private readonly baseUrl = '/api/stores' as const;
 
-  async getAll(companyId: string): Promise<Store[]> {
+  async getAll(companyId: string, search?: string): Promise<Store[]> {
      const response = await axios.get(this.baseUrl, {
-      params: { companyId }
+      params: { companyId, search }
     });
     
     return response.data.stores || [];

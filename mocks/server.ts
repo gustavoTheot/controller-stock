@@ -3,7 +3,7 @@ import { models } from './models';
 import { seedDatabase } from './seeds';
 import { setupCompanyRoutes } from './routes/companyRoutes';
 import { setupProductRoutes } from './routes/productRoute';
-import { setupStoreRoutes } from './routes/stpreRoutes';
+import { setupStoreRoutes } from './routes/storeRoutes';
 
 export function makeServer({ environment = 'development' } = {}) {
   return createServer({

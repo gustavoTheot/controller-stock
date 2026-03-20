@@ -91,7 +91,7 @@ export default function FormStore() {
       <VStack space="2xl">
         <VStack space="xs" className="mb-2">
           <Heading size="2xl" className="text-slate-900 font-extrabold tracking-tight">
-            {isEditing ? 'Editar Loja' : 'Nova Filial'}
+            {isEditing ? 'Editar Loja' : 'Nova Loja'}
           </Heading>
           <Text size="md" className="text-slate-500 font-medium mt-1">
             {isEditing ? `Modifique os dados de ID: ${storeId}` : 'Preencha os dados e endereço para registrar sua unidade.'}
@@ -187,7 +187,7 @@ export default function FormStore() {
           >
             {isLoadingSaving && <ButtonSpinner color="white" />}
             <ButtonText className="text-white font-bold text-lg px-2">
-              {isLoadingSaving ? 'Salvando...' : (isEditing ? 'Atualizar Filial' : 'Salvar Nova Filial')}
+              {isLoadingSaving ? 'Salvando...' : (isEditing ? 'Atualizar Loja' : 'Salvar Nova Loja')}
             </ButtonText>
           </Button>
 

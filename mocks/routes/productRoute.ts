@@ -3,12 +3,16 @@ import { AppRegistry, AppSchema } from '../models';
 
 export function setupProductRoutes(server: Server<AppRegistry>) {
   server.get('/products', (schema: AppSchema, request) => {
-    const { storeId } = request.queryParams;
+    const { storeId, search } = request.queryParams;
 
-    if (storeId) {
-      return schema.where('product', { storeId });
-    }
-    return schema.all('product');
+    return schema.where('product', (product: any) => {
+      const isStoreMatch = storeId ? product.storeId === storeId : true;
+      const isSearchMatch = search 
+        ? product.name.toLowerCase().includes(search.toLowerCase()) 
+        : true;
+
+      return isStoreMatch && isSearchMatch;
+    });
   });
 
   server.post('/products', (schema: AppSchema, request) => {
@@ -29,6 +33,15 @@ export function setupProductRoutes(server: Server<AppRegistry>) {
 
   server.get('/stores/:id/products', (schema: AppSchema, request) => {
     const storeId = request.params.id;
-    return schema.where('product', { storeId });
+    const { search } = request.queryParams;
+    
+    return schema.where('product', (product: any) => {
+      const isStoreMatch = product.storeId === storeId;
+      const isSearchMatch = search 
+        ? product.name.toLowerCase().includes(search.toLowerCase()) 
+        : true;
+
+      return isStoreMatch && isSearchMatch;
+    });
   });
 }

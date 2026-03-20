@@ -1,8 +1,9 @@
-import { useEffect } from 'react';
+// app/store/[id].tsx
+import { useEffect, useState } from 'react';
 import { FlatList, Alert, TouchableOpacity } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { ChevronLeft } from 'lucide-react-native';
+import { ChevronLeft, Search } from 'lucide-react-native';
 
 import { Box } from '../../components/ui/box';
 import { Fab, FabLabel } from '../../components/ui/fab';
@@ -11,6 +12,7 @@ import { Text } from '../../components/ui/text';
 import { Spinner } from '../../components/ui/spinner';
 import { Heading } from '../../components/ui/heading';
 import { HStack } from '../../components/ui/hstack';
+import { Input, InputField, InputSlot } from '../../components/ui/input';
 
 import { useStoreStore } from '../../store/storeStore';
 import { Store } from '../../types/storeDto';
@@ -21,10 +23,18 @@ export default function Stores() {
   const { id: companyId, companyName } = useLocalSearchParams<{ id: string, companyName: string }>();
   
   const { stores, isLoading, getStoresByCompany, removeStore } = useStoreStore();
+  
+  // Estado para armazenar a palavra da busca
+  const [searchQuery, setSearchQuery] = useState('');
 
+  // Busca na API passando o searchQuery via debounce (otimiza requisições)
   useEffect(() => {
-    getStoresByCompany(companyId);
-  }, [companyId]);
+    const delayDebounceFn = setTimeout(() => {
+      getStoresByCompany(companyId, searchQuery);
+    }, 500); // aguarda 500ms depois de parar de digitar para requisitar
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [companyId, searchQuery]);
 
   const handleDeletePress = (storeId: string) => {
     Alert.alert("Atenção", "Deseja remover esta loja?", [
@@ -54,7 +64,9 @@ export default function Stores() {
     <SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff' }} edges={['top']}>
       <Box className="flex-1 bg-slate-50">      
         
+        {/* Header Premium de Navegação */}
         <Box className="px-6 py-5 bg-white border-b border-slate-100 z-10 shadow-sm rounded-b-3xl mb-2">
+          
           <HStack className="items-center mb-5">
             <TouchableOpacity 
               activeOpacity={0.7} 
@@ -74,9 +86,27 @@ export default function Stores() {
           <Heading size="3xl" className="text-slate-900 font-black tracking-tight" numberOfLines={1}>
             {companyName || 'Carregando...'}
           </Heading>
-          <Text className="text-slate-500 mt-1.5 font-medium leading-relaxed">
+          
+          <Text className="text-slate-500 mt-1.5 mb-4 font-medium leading-relaxed">
             Selecione uma das unidades abaixo para gerenciar o estoque.
           </Text>
+
+          {/* Barra de Pesquisa */}
+          <Input 
+            variant="outline" 
+            size="md" 
+            className="flex-row items-center h-12 rounded-xl bg-slate-50 border-slate-200 px-3"
+          >
+            <InputSlot className="pr-2">
+              <Search size={20} color="#94a3b8" />
+            </InputSlot>
+            <InputField 
+              placeholder="Buscar loja pelo nome..."
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+              className="text-slate-800"
+            />
+          </Input>
         </Box>
 
         {isLoading ? (
@@ -86,6 +116,7 @@ export default function Stores() {
           </Center>
         ) : (
           <FlatList
+            // Agora usa stores diretamente da store Zustand
             data={stores}
             keyExtractor={(item) => item.id}
             showsVerticalScrollIndicator={false}
@@ -104,10 +135,10 @@ export default function Stores() {
                   <Text className="text-blue-600 text-3xl">🏪</Text>
                 </Box>
                 <Text className="text-slate-700 text-lg font-bold text-center">
-                  Nenhuma loja encontrada
+                  {searchQuery ? "Nenhuma loja encontrada" : "Nenhuma loja cadastrada"}
                 </Text>
                 <Text className="text-slate-500 text-sm text-center mt-2 leading-relaxed">
-                  Adicione a primeira loja para esta rede tocando no botão abaixo.
+                  {searchQuery ? "Tente buscar com outra palavra." : "Adicione a primeira loja para esta rede tocando no botão abaixo."}
                 </Text>
               </Center>
             }
