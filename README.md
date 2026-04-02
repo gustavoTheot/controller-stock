@@ -1,10 +1,42 @@
 # Controle de Estoque (Controller Stock)
 
-Aplicativo de gerenciamento de filiais e controle de estoque, desenvolvido em React Native com Expo, focado em uma interface moderna e alta performance.
+Aplicativo mobile para gerenciamento de lojas e produtos, criado para substituir o controle manual em planilhas por um fluxo centralizado, rastreavel e de manutencao simples.
 
-## � Telas do Aplicativo
+## Ferramentas Utilizadas
 
-As imagens abaixo mostram a evolução visual, e os dados dinâmicos do aplicativo:
+![Expo](https://img.shields.io/badge/Expo-SDK%2054-000020?logo=expo&logoColor=white)
+![React](https://img.shields.io/badge/React-19-20232A?logo=react&logoColor=61DAFB)
+![React Native](https://img.shields.io/badge/React%20Native-0.81-20232A?logo=react&logoColor=61DAFB)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)
+![Expo Router](https://img.shields.io/badge/Expo%20Router-6-000020?logo=expo&logoColor=white)
+![Gluestack UI](https://img.shields.io/badge/Gluestack%20UI-Design%20System-111827)
+![NativeWind](https://img.shields.io/badge/NativeWind-4.2-38BDF8)
+![Zustand](https://img.shields.io/badge/Zustand-5-6B4F3A)
+![MirageJS](https://img.shields.io/badge/MirageJS-Mock%20API-F25D27)
+![Jest](https://img.shields.io/badge/Jest-Testes-C21325?logo=jest&logoColor=white)
+
+## Problema
+
+O controle de estoque era feito em planilhas, o que causava:
+
+- dados desatualizados com frequencia
+- maior risco de erro no cadastro
+- dificuldade para rastrear alteracoes
+
+## Solucoes Que a Aplicacao Resolve
+
+- Centraliza cadastro e consulta de lojas e produtos.
+- Permite criar, listar, editar e remover lojas.
+- Permite criar, listar, editar e remover produtos por loja.
+- Exibe relacao de produtos vinculados por unidade.
+- Entrega filtros para busca de lojas e produtos.
+- Simula API local para desenvolvimento sem backend externo.
+- Estrutura o projeto com hooks e componentizacao para evolucao continua.
+- Reduz regressao com testes unitarios em regras de estado.
+
+## Telas do Aplicativo
+
+As imagens abaixo mostram os principais fluxos do app:
 
 | Painel Principal | Lista de Lojas | Lista de Produtos |
 |:---:|:---:|:---:|
@@ -14,71 +46,55 @@ As imagens abaixo mostram a evolução visual, e os dados dinâmicos do aplicati
 |:---:|:---:|:---:|
 | <img src="./assets/screenshots/empresa-form.png" width="220"> | <img src="./assets/screenshots/loja-form.png" width="220"> | <img src="./assets/screenshots/produto-form.png" width="220"> |
 
----
+## Instalacao e Execucao
 
-## �🛠 Versões Utilizadas
+Se estiver usando pnpm, substitua os comandos npm por pnpm.
 
-- **Node.js**: v18+ (Recomendado para o ambiente)
-- **Expo SDK**: ~54.0.33
-- **React**: 19.1.0
-- **React Native**: 0.81.5
-- **Gerenciamento de Estado (Zustand)**: ^5.0.12
-- **Estilização (NativeWind / Gluestack-UI)**: ^4.2.3 / ^3.0.x
-- **Mock de Backend (MirageJS)**: ^0.1.48
+1. Acesse a pasta do projeto:
 
----
+```bash
+cd provertec/controler-stock
+```
 
-## 🚀 Passos de Instalação e Execução
+2. Instale as dependencias:
 
-Caso utilize `pnpm` (conforme o pnpm-lock do projeto), você pode substituir os comandos `npm` por `pnpm`.
+```bash
+npm install
+# ou pnpm install
+```
 
-1. **Clone o repositório** e acesse a pasta do projeto:
-   ```bash
-   cd provertec/controler-stock
-   ```
+3. Inicie o Expo:
 
-2. **Instale as dependências** do projeto:
-   ```bash
-   npm install
-   # ou pnpm install
-   ```
+```bash
+npx expo start
+# ou npm start
+```
 
-3. **Inicie o servidor do Expo**:
-   ```bash
-   npx expo start
-   # ou npm start
-   ```
+4. Abra o app:
 
-4. **Abra o aplicativo**:
-   - Para abrir no seu próprio celular, baixe o aplicativo **Expo Go** (Android/iOS) e escaneie o código QR exibido no terminal.
-   - Para rodar em um emulador, pressione no terminal:
-     - `a` para rodar no Emulador Android.
-     - `i` para rodar no Simulador iOS.
+- Em dispositivo fisico: use o Expo Go e leia o QR code.
+- Em emulador:
+- a para Android
+- i para iOS
 
----
+## Mock de Back-end (MirageJS)
 
-## 💾 Instruções para o Mock de Back-end (MirageJS)
+O projeto usa MirageJS para interceptar requisicoes HTTP e simular entidades de lojas e produtos em memoria.
 
-Este projeto não depende de uma API externa para funcionar localmente. Ele utiliza o **MirageJS** para interceptar as requisições HTTP e simular um banco de dados relacional (Lojas e Produtos) operando diretamente na memória do aplicativo.
+Nao e necessario subir backend separado para rodar localmente.
 
-**🚨 Importante:** Você **não precisa** rodar nenhum comando extra para subir o backend. 
+Como funciona:
 
-### Como funciona:
-1. Assim que o aplicativo é inciado (`npx expo start`), o provedor do MirageJS contido na pasta `/mocks/server.ts` é instanciado.
-2. Todas as chamadas para `/api/companies`, `/api/stores` e `/api/products` feitas com o `Axios` pelos `Services` são interceptadas.
-3. O mock processa a requisição validando `queryParams` (buscas, ids) e gerencia bancos de dados virtuais efêmeros.
-4. Para visualizar ou modificar os dados iniciais do projeto (seeds), ou alterar comportamentos de rotas, acesse o diretório `/mocks`.
+1. Ao iniciar o app, o servidor mock em ./mocks/server.ts e carregado.
+2. Requisicoes para /api/companies, /api/stores e /api/products sao interceptadas.
+3. As rotas processam filtros e parametros de busca para simular comportamento real.
+4. Seeds e regras podem ser ajustadas na pasta ./mocks.
 
----
+## Testes Automatizados
 
+O projeto utiliza Jest com jest-expo para validar regras de negocio e o estado global com Zustand.
 
-## 🧪 Testes Automatizados
-
-O projeto utiliza o **Jest** configurado com `jest-expo` para validar as principais regras de negócios e a integridade do estado global gerenciado pelo **Zustand**. 
-
-Os testes garantem que as ações fundamentais da aplicação (como modificações, adições e listagens base do _storeStore_) não sofram regressões.
-
-Para executar a suíte de testes unitários, basta rodar o comando na raiz do projeto:
+Para executar:
 
 ```bash
 npm run test
